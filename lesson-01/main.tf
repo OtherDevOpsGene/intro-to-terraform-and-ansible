@@ -19,6 +19,6 @@ resource "aws_instance" "my_server" {
   instance_type = "t2.micro"
 
   tags = {
-    Name = "my-server"
+    Name = "tf-lesson-01"
   }
 }
