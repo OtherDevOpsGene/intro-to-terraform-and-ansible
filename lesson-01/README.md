@@ -4,6 +4,17 @@
 
 Start by creating an EC2 instance using Terraform.
 
+```terraform
+resource "aws_instance" "my_server" {
+  ami           = "ami-0629230e074c580f2"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "my-server"
+  }
+}
+```
+
 ```console
 $ ls -A
 .gitignore  README.md  main.tf
@@ -70,6 +81,8 @@ The EC2 instance is created in AWS.
 We don't have look at the AWS Console to see the details, though.
 
 ```console
+$ ls -A
+.gitignore  .terraform  .terraform.lock.hcl  README.md  main.tf  terraform.tfstate  terraform.tfstate.backup
 $ less terraform.tfstate
 {
   "version": 4,
@@ -93,7 +106,19 @@ resource "aws_instance" "my_server" {
 
 ## Make a simple change
 
-We can make a simple change to the instance.
+We can make a simple change to the instance, just update the value of the `Name`
+tag.
+
+```terraform
+resource "aws_instance" "my_server" {
+  ami           = "ami-0629230e074c580f2"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "tf-lesson-01"
+  }
+}
+```
 
 ```console
 $ terraform apply
@@ -136,6 +161,18 @@ Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
 ## Add another server
 
 We can also do something more complex, like increasing the number of servers.
+
+```terraform
+resource "aws_instance" "my_server" {
+  count         = 2
+  ami           = "ami-0629230e074c580f2"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "tf-lesson-01-${count.index}"
+  }
+}
+```
 
 ```console
 $ terraform apply
