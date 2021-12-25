@@ -76,7 +76,7 @@ The EC2 instance is created in AWS.
 
 ![AWS Console](../screenshots/aws-console-hello-world.png)
 
-## See what you have created
+## See what we have created
 
 We don't have look at the AWS Console to see the details, though.
 

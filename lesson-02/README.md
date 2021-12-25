@@ -162,7 +162,7 @@ Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
 
 ## Output
 
-You can specify data to be displayed at the end of the `apply` by creating an
+We can specify data to be displayed at the end of the `apply` by creating an
 `outputs.tf` file.
 
 ```terraform
@@ -205,7 +205,7 @@ app_server_instance_id = "i-01d1efdc6bd9ae04d"
 app_server_public_ip = "18.118.156.77"
 ```
 
-If there were multiple instances, say `count = 2`, you can output the whole
+If there were multiple instances, say `count = 2`, we can output the whole
 list using `[*]`.
 
 ```terraform
