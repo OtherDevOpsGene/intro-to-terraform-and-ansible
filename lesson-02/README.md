@@ -388,7 +388,6 @@ Terraform will perform the following actions:
 Plan: 2 to add, 0 to change, 2 to destroy.
 ```
 
-
 ## Clean up
 
 We can clean up what we created.
@@ -397,4 +396,4 @@ We can clean up what we created.
 $ terraform destroy
 ```
 
-End of Lesson 02.
+## End of Lesson 02.
