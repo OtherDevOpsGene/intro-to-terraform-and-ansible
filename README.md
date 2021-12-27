@@ -78,7 +78,7 @@ $ aws sts get-caller-identity
 ### AWS EC2 key pair
 
 [Create an EC2 key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair)
-and configure your SSH client to use it. Some clients (*<cough>* PuTTY *<cough>*)
+and configure your SSH client to use it. Some clients (*cough* PuTTY *cough*)
 need the key converted for use, so pay attention to your SSH client documentation.
 
 ```console
