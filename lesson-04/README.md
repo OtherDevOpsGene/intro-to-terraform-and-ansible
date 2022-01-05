@@ -48,7 +48,7 @@ target_private_ips = [
   "10.8.0.128",
 ]
 workstation_instance_id = "i-0281a8a5956684cbc"
-workstation_private_ip = "10.8.0.176"
+workstation_private_ip = "10.8.0.137"
 workstation_public_ip = "3.143.203.49"
 ```
 
@@ -85,7 +85,7 @@ Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 Warning: Permanently added '3.143.203.49' (ED25519) to the list of known hosts.
 Welcome to Ubuntu 21.10 (GNU/Linux 5.13.0-1007-aws x86_64)
 ...
-ubuntu@ip-10-8-0-176:~$
+ubuntu@ip-10-8-0-137:~$
 ```
 
 ## Verify Ansible is installed
@@ -94,7 +94,7 @@ On the Ansible workstation, we'll run our first Ansible command to verify it
 is installed correctly.
 
 ```console
-ubuntu@ip-10-8-0-176:~$ ansible localhost -m ping
+ubuntu@ip-10-8-0-137:~$ ansible localhost -m ping
 [WARNING]: No inventory was parsed, only implicit localhost is available
 localhost | SUCCESS => {
     "changed": false,
