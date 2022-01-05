@@ -1,0 +1,18 @@
+---
+- hosts: targets
+
+  tasks:
+  - name: Install the fortune package
+    apt:
+      name: fortune
+      state: present
+      update_cache: true
+    become: true
+
+  - name: Run fortune
+    command: fortune
+    register: fortune_out
+
+  - name: Display fortune results
+    debug:
+      var: fortune_out.stdout
