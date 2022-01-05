@@ -110,6 +110,27 @@ the target (`localhost` in this case) and run a command.
 We'll leave the environment running for now since we'll be using it for the
 upcoming lessons. We can destroy it later (and recreate it if we need to).
 
+## Why not local Ansible
+
+It might be easier in a lot of ways if we used our laptop as our Ansible control node
+instead of creating a workstation in AWS and working remotely.
+But there are reasons we aren't doing that. Some of them are:
+
+1. Installing the correct version of Python is generally easy only if another version of Python isn't already installed.
+1. Set up and configuration on different OSes and platforms sometimes has subtle or non-subtle differences.
+1. Use of the command line (e.g., escaping special characters) differs between shells.
+1. It is safer to work in a sandbox as closed off from the public internet as possible.
+1. Using a system near the target network as a bastion host or workstation is not an uncommon pattern.
+1. SSH tunneling can be non-trivial to set up and troubleshoot, especially on multiple platforms and SSH clients.
+1. We aren't using this environment for an extended period.
+
+So in the interest of simplifying the workshop, I chose to use a remote
+control node. It just makes for a smoother, more homogeneous workshop experience.
+
+That said, we could do the rest of the exercises with some changes to the security groups on the targets,
+eliminating the workstation, and making sure Ansible is installed and configured correctly on our laptop.
+If you choose to go that route, caveat lector. The necessary changes are left as an exercise for the reader.
+
 ## End of Lesson 04
 
 # Terraform documentation
