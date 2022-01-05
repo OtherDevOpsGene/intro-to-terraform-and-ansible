@@ -69,14 +69,28 @@ resource "aws_instance" "workstation" {
     Project = var.project_tag
   }
 
+  connection {
+    host        = self.public_ip
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file(var.private_key_file)
+  }
+
+  provisioner "file" {
+    source      = var.private_key_file
+    destination = "/home/ubuntu/.ssh/id_rsa"
+  }
+
+  provisioner "remote-exec" {
+    inline = ["chmod 0400 /home/ubuntu/.ssh/id_rsa"]
+  }
+
   provisioner "remote-exec" {
     script = "bootstrap-ansible.sh"
+  }
 
-    connection {
-      host        = self.public_ip
-      type        = "ssh"
-      user        = "ubuntu"
-      private_key = file(var.private_key_file)
-    }
+  provisioner "file" {
+    source      = "ansible.cfg"
+    destination = "/home/ubuntu/.ansible.cfg"
   }
 }
