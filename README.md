@@ -4,6 +4,11 @@ A hands-on workshop to become familiar with [Hashicorp Terraform](https://www.te
 to provision and configure infrastructure and [Red Hat Ansible](https://github.com/ansible/ansible)
 to configure systems and deploy applications.
 
+## Reference documentation
+
+* [Terraform AWS Provider Docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+* [Ansible Documentation](https://docs.ansible.com/ansible/latest/)
+
 ## Prerequisites
 
 To get the most out of this workshop, you will need the following:
