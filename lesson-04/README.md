@@ -75,7 +75,7 @@ On the Ansible workstation, we'll run our first Ansible command to verify it
 is installed correctly.
 
 ```console
-$ ansible localhost -m ping
+ubuntu@ip-10-8-0-176:~$ ansible localhost -m ping
 [WARNING]: No inventory was parsed, only implicit localhost is available
 localhost | SUCCESS => {
     "changed": false,
@@ -83,8 +83,8 @@ localhost | SUCCESS => {
 }
 ```
 
-If we get a `pong` in response to our `ping`, then Ansible was able to log onto
-the target (`localhost` in this case) and was able to run a command.
+If we get a `pong` back from our `ping`, then Ansible was able to log onto
+the target (`localhost` in this case) and run a command.
 
 ## Leave the environment running
 
