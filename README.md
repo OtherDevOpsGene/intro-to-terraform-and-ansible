@@ -99,3 +99,7 @@ $ aws ec2 describe-key-pairs
     ]
 }
 ```
+
+We will be copying the public **and private** keys on to AWS EC2 instances, so you
+might want to create a key pair just for this workshop and then delete it immediately
+after, just in case.
