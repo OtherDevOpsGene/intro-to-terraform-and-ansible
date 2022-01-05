@@ -52,6 +52,25 @@ workstation_private_ip = "10.8.0.176"
 workstation_public_ip = "3.143.203.49"
 ```
 
+## Retrieving output values
+
+We'll need to use these output values in this and later lessons. If the values scroll
+off the screen, we can use `terraform output` to extract them from the state
+file again. That means we have to run the commands in this directory so Terraform finds
+the right state, or we'll have to use the `-state=path` option to point to the
+correct `terraform.tfstate` file.
+
+```console
+$ terraform output target_private_ips
+[
+  "10.8.0.87",
+  "10.8.0.115",
+  "10.8.0.128",
+]
+$ terraform output workstation_public_ip
+"3.143.203.49"
+```
+
 ## Connect to the workstation
 
 SSH into the Ansible workstation using the `workstation_public_ip` and the key file you 
