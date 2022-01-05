@@ -8,7 +8,7 @@ what Terraform will be doing without doing it.
 
 ```console
 $ ls -A
-.gitignore  README.md  keypair.tf  main.tf  network.tf  outputs.tf  providers.tf  variables.tf
+.gitignore  README.md  main.tf  network.tf  outputs.tf  providers.tf  variables.tf
 $ terraform init
 ...
 $ terraform plan
@@ -196,7 +196,7 @@ Outputs:
 If we want to force the replacement of a resource that otherwise would not
 change (e.g., replace an EC2 instance that was corrupted at the system level,
 but the instance configuration remains intact), we can explicitly recreate it.
-The command used to be called `terraform taint`, but now `terraform apply` is
+The command used to be called `terraform taint`, but now `terraform apply -replace` is
 preferred.
 
 ```console
