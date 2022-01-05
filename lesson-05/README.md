@@ -1,7 +1,7 @@
 # Lesson 05 - Ansible basics
 
 *Except where noted, these instructions should be run on the Ansible workstation
-(i.e., control node) we stood up in Lesson 04.* 
+(i.e., control node) we stood up in Lesson 04.*
 
 ## Inventory file
 
@@ -21,7 +21,7 @@ The `[WARNING]` mentions, accurately, that we didn't supply an inventory, which
 is a list of the systems that we are managing with Ansible.
 
 Create `inventory.ini` on the workstation listing the *private* IP addresses for
-the workstation and target systems. 
+the workstation and target systems.
 You can use `terraform output workstation_private_ip` and
 `terraform output target_private_ips` on your laptop in the `lesson-04`
 directory to get the values you need.
@@ -45,7 +45,6 @@ targets
 
 This inventory sets up 3 groups: `workstation`, `targets`, and a group called
 `all` that is made up of the contents of the other 2 groups.
-
 
 Now we can rerun the `ping` command locally and see that the `[WARNING]`
 isn't displayed.
@@ -86,7 +85,7 @@ ubuntu@ip-10-8-0-137:~$ ansible -i inventory.ini targets -m ping
 }
 ```
 
-This showed that Ansible was able to SSH into each of the target systems and 
+This showed that Ansible was able to SSH into each of the target systems and
 find an acceptable version of Python.
 
 Since we'll be using this same inventory for a while, we can update the
@@ -199,7 +198,7 @@ module. Since installing software via the package manager requires
 `root` or `sudo`, we will have to *become* a privileged user.
 
 We can see what attributes are required and available in the
-[module documentation](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html). 
+[module documentation](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html).
 The `update_cache` attribute will make sure we have an up-to-date list of the
 available packages so the package manager can find the package we are installing.
 
@@ -254,7 +253,7 @@ Communicate!  It can't make things any worse.
 
 More useful than remote generating random sayings, we could do system
 maintenance using a similar ad-hoc model. Since the `apt` package list is
-up-to-date now, we could use the more generic `package` module. 
+up-to-date now, we could use the more generic `package` module.
 
 ```console
 ubuntu@ip-10-8-0-137:~$ ansible all --become -m package -a "name=liblog4j2-java state=absent"
@@ -339,4 +338,4 @@ non-zero return code
 non-zero return code
 ```
 
-## End of Lesson 05.
+## End of Lesson 05

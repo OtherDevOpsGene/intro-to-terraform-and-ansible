@@ -1,4 +1,4 @@
-# Lesson 04 - An Ansible sandbox
+# Lesson 04 - Building an Ansible sandbox
 
 Use Terraform to stand up an environment to use Ansible from and on. The Ansible control node, which is where
 Ansible runs from, needs to be a Linux system with Python 3.8+ installed. There will be 3 target systems we will
@@ -8,7 +8,7 @@ only be accessible from the control node and other targets.
 ## Using the Terraform code
 
 The variables that need to be populated are listed in the documentation at the bottom of this file.
-This documentation is generated from the Terraform code itself using 
+This documentation is generated from the Terraform code itself using
 [terraform-docs](https://github.com/terraform-docs/terraform-docs).
 
 ```console
@@ -73,7 +73,7 @@ $ terraform output workstation_public_ip
 
 ## Connect to the workstation
 
-SSH into the Ansible workstation using the `workstation_public_ip` and the key file you 
+SSH into the Ansible workstation using the `workstation_public_ip` and the key file you
 specified. The username is `ubuntu`.
 
 ```console
@@ -110,7 +110,7 @@ the target (`localhost` in this case) and run a command.
 We'll leave the environment running for now since we'll be using it for the
 upcoming lessons. We can destroy it later (and recreate it if we need to).
 
-## End of Lesson 04.
+## End of Lesson 04
 
 # Terraform documentation
 

@@ -283,4 +283,4 @@ aws_instance.my_server[0]: Destruction complete after 41s
 Destroy complete! Resources: 2 destroyed.
 ```
 
-## End of Lesson 01.
+## End of Lesson 01

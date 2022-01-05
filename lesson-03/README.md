@@ -3,7 +3,7 @@
 ## Plans and more variables
 
 Terraform will run any `*.tf` file in the directory. The `plan` command is
-handled automatically by `apply`, but can also be performed explicitly to see 
+handled automatically by `apply`, but can also be performed explicitly to see
 what Terraform will be doing without doing it.
 
 ```console
@@ -28,8 +28,8 @@ Note: You didn't use the -out option to save this plan, so Terraform can't guara
 A variable specified like this will need to be set each time, making it manual
 to repeat a build.
 
-Sometimes values will be set for each user, but will remain constant once set. 
-We can put those values in a `terraform.tfvars` file or any filename ending in 
+Sometimes values will be set for each user, but will remain constant once set.
+We can put those values in a `terraform.tfvars` file or any filename ending in
 `.auto.tfvars`.
 
 Create `terraform.tfvars`:
@@ -59,9 +59,9 @@ Terraform will perform the following actions:
 Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
 ```
 
-The note points out that the settings it is showing were only at the time 
+The note points out that the settings it is showing were only at the time
 `plan` was run, and might change when `apply` is run. E.g., the `TF_VAR_aws_region`
-environment variable could be changed. We can save that plan and pass it to 
+environment variable could be changed. We can save that plan and pass it to
 `apply` to avoid surprises.
 
 ```console
@@ -88,7 +88,7 @@ Outputs:
 
 Sometimes we want to use different values for different runs, e.g., each
 different environment. We can combine workspaces and `.tfvars` files to work on
-more than one environment at once and so we don't have to specify the values 
+more than one environment at once and so we don't have to specify the values
 each time.
 
 In `main.tf`, make the webserver `instance_type` a variable:
@@ -112,16 +112,18 @@ variable "instance_type" {
 ```
 
 Create `dev.tfvars`:
+
 ```terraform
 instance_type = "t2.micro"
 ```
 
 Create `prod.tfvars`:
+
 ```terraform
 instance_type = "t2.medium"
 ```
 
-We can work on more than one environment while in this directory using 
+We can work on more than one environment while in this directory using
 workspaces. Until now, we've been working in the `default` workspace
 (notice the `*` which means selected).
 
@@ -320,8 +322,8 @@ Error: "t2x.micro" is an invalid value as instance_type (aws_instance_invalid_ty
 ### Checkov
 
 > Checkov is a static code analysis tool for infrastructure-as-code.
-> 
-> It scans cloud infrastructure provisioned using Terraform, Terraform plan, Cloudformation, AWS SAM, Kubernetes, 
+>
+> It scans cloud infrastructure provisioned using Terraform, Terraform plan, Cloudformation, AWS SAM, Kubernetes,
 > Dockerfile, Serverless or ARM Templates and detects security and compliance misconfigurations using graph-based scanning.
 
 [Checkov](https://github.com/bridgecrewio/checkov) is a Python 3.7+ application
@@ -342,7 +344,7 @@ $ pip3 install -U checkov
 ```
 
 And then scan a file or directory to find misconfigurations and suggestions.
-Problems and often solutions are linked in the output. 
+Problems and often solutions are linked in the output.
 
 ```console
 $ checkov -f network.tf
@@ -366,4 +368,4 @@ Not all recommendations will always apply, but keep in mind they are
 recommendations for a reason. Whenever we ignore any of the suggestions, we are
 accepting some amount of risk.
 
-## End of Lesson 03.
+## End of Lesson 03

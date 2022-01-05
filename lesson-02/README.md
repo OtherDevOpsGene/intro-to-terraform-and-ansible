@@ -296,11 +296,11 @@ app_server_public_ips = [
 ## Data
 
 The AMI ID `ami-0629230e074c580f2` is an image for Ubuntu 20.04 LTS in us-east-2.
-The Ubuntu image list can found at [https://cloud-images.ubuntu.com/locator/ec2/].
+The Ubuntu image list can found at <https://cloud-images.ubuntu.com/locator/ec2/>.
 
 Rather than hard-coding the AMI ID, we can look it up at provisioning time.
 
-```terraform 
+```terraform
 data "aws_ami" "ubuntu_linux" {
   most_recent = true
   owners      = ["099720109477"]
@@ -348,7 +348,7 @@ Plan: 2 to add, 0 to change, 2 to destroy.
 Because the AMI changes, the images need to be recreated.
 
 Notice the `destroy then create replacement`, which would mean that we would have
-downtime if we were to keep replacing the AMI to stay current. 
+downtime if we were to keep replacing the AMI to stay current.
 
 We can change the lifecycle to make sure it stands up the new instances and then
 destroys the old so that we don't have unavailability (at the cost of having more
@@ -396,4 +396,4 @@ We can clean up what we created.
 $ terraform destroy
 ```
 
-## End of Lesson 02.
+## End of Lesson 02

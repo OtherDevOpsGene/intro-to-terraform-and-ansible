@@ -17,7 +17,7 @@ To get the most out of this workshop, you will need the following:
 * SSH client
 * AWS account with adequate permissions
 * AWS CLI installed and configured
-* AWS EC2 key pair 
+* AWS EC2 key pair
 
 ### Terraform
 
@@ -32,7 +32,7 @@ on linux_amd64
 
 ### SSH client
 
-You should have an SSH client installed and be familiar with using it. 
+You should have an SSH client installed and be familiar with using it.
 [PuTTY](https://www.putty.org/) is an option for Windows, but most Windows users
 will be better served with the client that comes with [Git Bash](https://gitforwindows.org/).
 Other OSes likely have the client already installed.
@@ -59,7 +59,7 @@ specifically for this workshop might be a good idea.
 
 You must install the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 and configure it to use the `AWS Access Key ID` and `AWS Secret Access Key` you
-created previously. 
+created previously.
 
 Use `aws configure` to [set up](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html)
 the AWS CLI to use them.
