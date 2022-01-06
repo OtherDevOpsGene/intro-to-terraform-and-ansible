@@ -1,7 +1,7 @@
 # Lesson 06 - Playbook basics
 
 *Except where noted, these instructions should be run on the Ansible workstation
-(i.e., control node) we stood up in Lesson 04.* 
+(i.e., control node) we stood up in Lesson 04.*
 
 Using Ansible for ad-hoc tasks might be a convenience for investigations or
 emergencies, but we really want to use Ansible to focus on repeatability and
@@ -21,7 +21,7 @@ For example, rework the `fortune` example by copying
 a playbook.
 
 ```console
-ubuntu@ip-10-8-0-137:~$ ansible-playbook fortune-playbook.yml 
+ubuntu@ip-10-8-0-137:~$ ansible-playbook fortune-playbook.yml
 
 PLAY [targets] *********************************************************************************************************************
 
@@ -52,10 +52,9 @@ ok: [10.8.0.128] => {
 }
 
 PLAY RECAP *************************************************************************************************************************
-10.8.0.115                 : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-10.8.0.128                 : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-10.8.0.87                  : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-
+10.8.0.115                 : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+10.8.0.128                 : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+10.8.0.87                  : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
 We can extend the example to use additional packages as well.
@@ -65,7 +64,7 @@ Copying
 a playbook.
 
 ```console
-ubuntu@ip-10-8-0-137:~$ ansible-playbook cowsay-playbook.yml 
+ubuntu@ip-10-8-0-137:~$ ansible-playbook cowsay-playbook.yml
 
 PLAY [targets] *********************************************************************************************************************
 
@@ -144,9 +143,9 @@ ok: [10.8.0.128] => {
 }
 
 PLAY RECAP *************************************************************************************************************************
-10.8.0.115                 : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-10.8.0.128                 : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-10.8.0.87                  : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+10.8.0.115                 : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+10.8.0.128                 : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+10.8.0.87                  : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
 The `ansible_hostname` comes from the implicit `Gathering Facts` task. You can see
@@ -180,14 +179,14 @@ ubuntu@ip-10-8-0-137:~$ pip3 install --user "ansible-lint[yamllint]"
 Collecting ansible-lint[yamllint]
   Downloading ansible_lint-5.3.1-py3-none-any.whl (114 kB)
 ...
-Successfully installed ansible-lint-5.3.1 bracex-2.2.1 commonmark-0.9.1 enrich-1.2.6 pathspec-0.9.0 pygments-2.11.1 
+Successfully installed ansible-lint-5.3.1 bracex-2.2.1 commonmark-0.9.1 enrich-1.2.6 pathspec-0.9.0 pygments-2.11.1
 rich-10.16.2 ruamel.yaml-0.17.20 ruamel.yaml.clib-0.2.6 tenacity-8.0.1 wcmatch-8.3 yamllint-1.26.3
 ```
 
 Then run it on one or more files.
 
 ```console
-ubuntu@ip-10-8-0-137:~$ ansible-lint fortune-playbook.yml cowsay-playbook.yml 
+ubuntu@ip-10-8-0-137:~$ ansible-lint fortune-playbook.yml cowsay-playbook.yml
 WARNING  Listing 3 violation(s) that are fatal
 no-changed-when: Commands should not change things if nothing needs doing
 cowsay-playbook.yml:12 Task/Handler: Run fortune
