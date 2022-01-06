@@ -1,0 +1,11 @@
+---
+- hosts: webservers
+  become: true
+
+  vars:
+    nginx_vhosts:
+      - listen: "80"
+        server_name: "example.com"
+
+  roles:
+    - {role: geerlingguy.nginx}
