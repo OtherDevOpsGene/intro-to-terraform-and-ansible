@@ -18,6 +18,11 @@ output "workstation_private_ip" {
   value       = aws_instance.workstation.private_ip
 }
 
+output "target_public_ips" {
+  description = "Public IP addresses of the Ansible targets"
+  value       = aws_instance.target[*].public_ip
+}
+
 output "target_private_ips" {
   description = "Private IP addresses of the Ansible targets"
   value       = aws_instance.target[*].private_ip

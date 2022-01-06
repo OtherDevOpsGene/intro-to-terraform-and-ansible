@@ -47,6 +47,11 @@ target_private_ips = [
   "10.8.0.115",
   "10.8.0.128",
 ]
+target_public_ips = [
+  "18.217.223.87",
+  "18.219.179.242",
+  "52.14.207.168",
+]
 workstation_instance_id = "i-0281a8a5956684cbc"
 workstation_private_ip = "10.8.0.137"
 workstation_public_ip = "3.143.203.49"
@@ -191,6 +196,7 @@ No modules.
 |------|-------------|
 | <a name="output_target_instance_ids"></a> [target\_instance\_ids](#output\_target\_instance\_ids) | IDs of the Ansible target instances |
 | <a name="output_target_private_ips"></a> [target\_private\_ips](#output\_target\_private\_ips) | Private IP addresses of the Ansible targets |
+| <a name="output_target_public_ips"></a> [target\_public\_ips](#output\_target\_public\_ips) | Public IP addresses of the Ansible targets |
 | <a name="output_workstation_instance_id"></a> [workstation\_instance\_id](#output\_workstation\_instance\_id) | ID of the Ansible workstation instance |
 | <a name="output_workstation_private_ip"></a> [workstation\_private\_ip](#output\_workstation\_private\_ip) | Private IP address of the Ansible workstation |
 | <a name="output_workstation_public_ip"></a> [workstation\_public\_ip](#output\_workstation\_public\_ip) | Public IP address of the Ansible workstation |
