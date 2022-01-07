@@ -176,7 +176,7 @@ $ terraform output target_public_ips
 If we point a web browser to those IP addresses, we should see a webpage on 2 of them.
 
 <kbd>
-  ![Welcome to nginx!](../screenshots/welcome-to-nginx.png)
+  <img alt="Welcome to nginx!" src="../screenshots/welcome-to-nginx.png"/>
 </kbd>
 
 That works, but we really want something a little more bespoke. We can add some
@@ -253,7 +253,7 @@ PLAY RECAP *********************************************************************
 ```
 
 <kbd>
-  ![Hello, Gene!](../screenshots/hello-gene.png)
+  <img alt="Hello, Gene!" src="../screenshots/hello-gene.png"/>
 </kbd>
 
 ## Installing MongoDB
