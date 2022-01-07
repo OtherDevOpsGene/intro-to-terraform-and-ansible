@@ -254,7 +254,7 @@ Finished with 3 failure(s), 0 warning(s) on 2 files.
 
 In this case, all 3 violations are because we are not *idempotent*- each time we
 run the playbook we get a different result. That is the nature of the `fortune`
-command and useful for demo purposes, but it is definitely not how we would 
+command and useful for demo purposes, but it is definitely not how we would
 normally use Ansible.
 
 It is critical that when writing "real" playbooks that we make sure we can run
