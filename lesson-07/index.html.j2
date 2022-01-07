@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+  <head>
+    <title>Hello, {{ my_name }}!</title>
+    <style>
+        body {
+            width: 35em;
+            margin: 0 auto;
+            font-family: Tahoma, Verdana, Arial, sans-serif;
+        }
+    </style>
+  </head>
+
+  <body>
+    <h1 align="center">Hello, {{ my_name }}!</h1>
+
+    <p>This is just a static HTML page that we created in the
+    Intro to Terraform and Ansible workshop.</p>
+
+    <p>This web server is running on {{ ansible_hostname }} which is
+    running {{ ansible_lsb.description }} ({{ ansible_lsb.codename }}).
+  </body>
+</html>
