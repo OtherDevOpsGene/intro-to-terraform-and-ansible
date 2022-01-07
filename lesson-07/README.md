@@ -175,8 +175,9 @@ $ terraform output target_public_ips
 
 If we point a web browser to those IP addresses, we should see a webpage on 2 of them.
 
-| --- |
-| ![Welcome to nginx!](../screenshots/welcome-to-nginx.png) |
+<kbd>
+  ![Welcome to nginx!](../screenshots/welcome-to-nginx.png)
+</kbd>
 
 That works, but we really want something a little more bespoke. We can add some
 more configuration to the playbook and include a new home page. Add another variable
@@ -251,8 +252,9 @@ PLAY RECAP *********************************************************************
 10.8.0.209                 : ok=14   changed=1    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
 ```
 
-| --- |
-| ![Hello, Gene!](../screenshots/hello-gene.png) |
+<kbd>
+  ![Hello, Gene!](../screenshots/hello-gene.png)
+</kbd>
 
 ## Installing MongoDB
 
