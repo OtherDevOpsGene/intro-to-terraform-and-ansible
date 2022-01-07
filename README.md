@@ -7,7 +7,7 @@ to configure systems and deploy applications.
 ## Reference documentation
 
 * [Terraform AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
-* [Ansible built-in plugins](https://docs.ansible.com/ansible/latest/collections/anisble/builtin/)
+* [Ansible built-in plugins](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/)
 
 ## Prerequisites
 
