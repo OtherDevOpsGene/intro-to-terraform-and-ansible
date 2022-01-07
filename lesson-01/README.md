@@ -74,7 +74,9 @@ Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
 The EC2 instance is created in AWS.
 
-![AWS Console](../screenshots/aws-console-hello-world.png)
+<kbd>
+  <img alt="AWS Console" src="../screenshots/aws-console-hello-world.png"/>
+</kbd>
 
 ## See what we have created
 
