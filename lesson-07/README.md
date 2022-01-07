@@ -18,45 +18,45 @@ Update the `inventory.ini` to add these groups so we can refer to the servers ea
 
 ```ini
 [workstation]
-10.8.0.137
+10.8.0.26
 
 [targets]
-10.8.0.87
-10.8.0.115
-10.8.0.128
+10.8.0.188
+10.8.0.209
+10.8.0.206
 
 [all:children]
 workstation
 targets
 
 [webservers]
-10.8.0.115
-10.8.0.128
+10.8.0.209
+10.8.0.206
 
 [database]
-10.8.0.87
+10.8.0.188
 ```
 
 Test them with a `ping`.
 
 ```console
-ubuntu@ip-10-8-0-137:~$ ansible webservers -m ping
-10.8.0.115 | SUCCESS => {
+ubuntu@ip-10-8-0-26:~$ ansible webservers -m ping
+10.8.0.206 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
     "changed": false,
     "ping": "pong"
 }
-10.8.0.128 | SUCCESS => {
+10.8.0.209 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
     "changed": false,
     "ping": "pong"
 }
-ubuntu@ip-10-8-0-137:~$ ansible database -m ping
-10.8.0.87 | SUCCESS => {
+ubuntu@ip-10-8-0-26:~$ ansible database -m ping
+10.8.0.188 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
@@ -67,7 +67,7 @@ ubuntu@ip-10-8-0-137:~$ ansible database -m ping
 
 ## Ansible Galaxy
 
-Installing NGINX and MongoDB is a little more involved than installing a single
+Installing NGINX and MongoDB are a little more involved than installing a single
 package each as we did with `fortune` and `cowsay`. Fortunately, both are popular
 software and someone else has already come up with code we can use. The public
 repository for sharing that code is [Ansible Galaxy](https://galaxy.ansible.com/).
@@ -83,22 +83,22 @@ The Galaxy pages have information on how to use them.
 First, we need to install them on our control node so Ansible can use them.
 
 ```console
-ubuntu@ip-10-8-0-137:~$ ansible-galaxy install geerlingguy.nginx
+ubuntu@ip-10-8-0-26:~$ ansible-galaxy install geerlingguy.nginx
 Starting galaxy role install process
 - downloading role 'nginx', owned by geerlingguy
 - downloading role from https://github.com/geerlingguy/ansible-role-nginx/archive/3.1.0.tar.gz
 - extracting geerlingguy.nginx to /home/ubuntu/.ansible/roles/geerlingguy.nginx
 - geerlingguy.nginx (3.1.0) was installed successfully
-ubuntu@ip-10-8-0-137:~$ ansible-galaxy collection install community.mongodb
+ubuntu@ip-10-8-0-26:~$ ansible-galaxy collection install community.mongodb
 Starting galaxy collection install process
 Process install dependency map
 Starting collection install process
-Downloading https://galaxy.ansible.com/download/community-mongodb-1.3.2.tar.gz to /home/ubuntu/.ansible/tmp/ansible-local-26740snolbke_/tmpnvmry8al/community-mongodb-1.3.2-anci_mrg
+Downloading https://galaxy.ansible.com/download/community-mongodb-1.3.2.tar.gz to /home/ubuntu/.ansible/tmp/ansible-local-9402dmuftl1q/tmp2sh_o8my/community-mongodb-1.3.2-kbwytqfq
 Installing 'community.mongodb:1.3.2' to '/home/ubuntu/.ansible/collections/ansible_collections/community/mongodb'
-Downloading https://galaxy.ansible.com/download/ansible-posix-1.3.0.tar.gz to /home/ubuntu/.ansible/tmp/ansible-local-26740snolbke_/tmpnvmry8al/ansible-posix-1.3.0-hq9o9l_3
+Downloading https://galaxy.ansible.com/download/ansible-posix-1.3.0.tar.gz to /home/ubuntu/.ansible/tmp/ansible-local-9402dmuftl1q/tmp2sh_o8my/ansible-posix-1.3.0-jfe0its2
 community.mongodb:1.3.2 was installed successfully
 Installing 'ansible.posix:1.3.0' to '/home/ubuntu/.ansible/collections/ansible_collections/ansible/posix'
-Downloading https://galaxy.ansible.com/download/community-general-4.2.0.tar.gz to /home/ubuntu/.ansible/tmp/ansible-local-26740snolbke_/tmpnvmry8al/community-general-4.2.0-eg2d5mt0
+Downloading https://galaxy.ansible.com/download/community-general-4.2.0.tar.gz to /home/ubuntu/.ansible/tmp/ansible-local-9402dmuftl1q/tmp2sh_o8my/community-general-4.2.0-y5t748ev
 ansible.posix:1.3.0 was installed successfully
 Installing 'community.general:4.2.0' to '/home/ubuntu/.ansible/collections/ansible_collections/community/general'
 community.general:4.2.0 was installed successfully
@@ -127,10 +127,10 @@ roles/
 We don't have to worry about that right now since `geerlingguy` already did. We
 just have to supply the playbook.
 
-Create `nginx-playbook.yml` on the control node to call the role. We want the
-role applied to our `webservers` group. Since we'll be installing packages,
-we'll need elevated privileges. The Read Me shows which variables to supply and
-then we can leave the rest to the role.
+Create [nginx-playbook.yml](./nginx-playbook.yml) on the control node to call the role.
+We want the role applied to our `webservers` group. Since we'll be installing packages,
+we'll need elevated privileges. The Read Me on Galaxy shows which variables to
+supply and then we can leave the rest to the role.
 
 ```yaml
 ---
@@ -149,99 +149,13 @@ then we can leave the rest to the role.
 Then run our playbook.
 
 ```console
-ubuntu@ip-10-8-0-137:~$ ansible-playbook nginx-playbook.yml
+ubuntu@ip-10-8-0-26:~$ ansible-playbook nginx-playbook.yml
 
 PLAY [webservers] ******************************************************************************************************************
-
-TASK [Gathering Facts] *************************************************************************************************************
-ok: [10.8.0.115]
-ok: [10.8.0.128]
-
-TASK [geerlingguy.nginx : Include OS-specific variables.] **************************************************************************
-ok: [10.8.0.115]
-ok: [10.8.0.128]
-
-TASK [geerlingguy.nginx : Define nginx_user.] **************************************************************************************
-ok: [10.8.0.115]
-ok: [10.8.0.128]
-
-TASK [geerlingguy.nginx : include_tasks] *******************************************************************************************
-skipping: [10.8.0.115]
-skipping: [10.8.0.128]
-
-TASK [geerlingguy.nginx : include_tasks] *******************************************************************************************
-included: /home/ubuntu/.ansible/roles/geerlingguy.nginx/tasks/setup-Ubuntu.yml for 10.8.0.115, 10.8.0.128
-
-TASK [geerlingguy.nginx : Ensure dirmngr is installed (gnupg dependency).] *********************************************************
-ok: [10.8.0.115]
-ok: [10.8.0.128]
-
-TASK [geerlingguy.nginx : Add PPA for Nginx (if configured).] **********************************************************************
-skipping: [10.8.0.115]
-skipping: [10.8.0.128]
-
-TASK [geerlingguy.nginx : Ensure nginx will reinstall if the PPA was just added.] **************************************************
-skipping: [10.8.0.115]
-skipping: [10.8.0.128]
-
-TASK [geerlingguy.nginx : include_tasks] *******************************************************************************************
-included: /home/ubuntu/.ansible/roles/geerlingguy.nginx/tasks/setup-Debian.yml for 10.8.0.115, 10.8.0.128
-
-TASK [geerlingguy.nginx : Update apt cache.] ***************************************************************************************
-ok: [10.8.0.115]
-ok: [10.8.0.128]
-
-TASK [geerlingguy.nginx : Ensure nginx is installed.] ******************************************************************************
-changed: [10.8.0.115]
-changed: [10.8.0.128]
-
-TASK [geerlingguy.nginx : include_tasks] *******************************************************************************************
-skipping: [10.8.0.115]
-skipping: [10.8.0.128]
-
-TASK [geerlingguy.nginx : include_tasks] *******************************************************************************************
-skipping: [10.8.0.115]
-skipping: [10.8.0.128]
-
-TASK [geerlingguy.nginx : include_tasks] *******************************************************************************************
-skipping: [10.8.0.115]
-skipping: [10.8.0.128]
-
-TASK [geerlingguy.nginx : Remove default nginx vhost config file (if configured).] *************************************************
-skipping: [10.8.0.115]
-skipping: [10.8.0.128]
-
-TASK [geerlingguy.nginx : Ensure nginx_vhost_path exists.] *************************************************************************
-ok: [10.8.0.115]
-ok: [10.8.0.128]
-
-TASK [geerlingguy.nginx : Add managed vhost config files.] *************************************************************************
-changed: [10.8.0.115] => (item={'listen': '80', 'server_name': 'example.com'})
-changed: [10.8.0.128] => (item={'listen': '80', 'server_name': 'example.com'})
-
-TASK [geerlingguy.nginx : Remove managed vhost config files.] **********************************************************************
-skipping: [10.8.0.115] => (item={'listen': '80', 'server_name': 'example.com'})
-skipping: [10.8.0.128] => (item={'listen': '80', 'server_name': 'example.com'})
-
-TASK [geerlingguy.nginx : Remove legacy vhosts.conf file.] *************************************************************************
-ok: [10.8.0.115]
-ok: [10.8.0.128]
-
-TASK [geerlingguy.nginx : Copy nginx configuration in place.] **********************************************************************
-changed: [10.8.0.115]
-changed: [10.8.0.128]
-
-TASK [geerlingguy.nginx : Ensure nginx service is running as configured.] **********************************************************
-ok: [10.8.0.115]
-ok: [10.8.0.128]
-
-RUNNING HANDLER [geerlingguy.nginx : reload nginx] *********************************************************************************
-changed: [10.8.0.115]
-changed: [10.8.0.128]
-
+...
 PLAY RECAP *************************************************************************************************************************
-10.8.0.115                 : ok=12   changed=4    unreachable=0    failed=0    skipped=9    rescued=0    ignored=0
-10.8.0.128                 : ok=12   changed=4    unreachable=0    failed=0    skipped=9    rescued=0    ignored=0
+10.8.0.206                 : ok=14   changed=4    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
+10.8.0.209                 : ok=14   changed=4    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
 ```
 
 We need to find out what the public IP addresses for the targets are, knowing
@@ -252,16 +166,17 @@ On our laptop, go to the `lesson-04` directory and pull up the Terraform output 
 ```console
 $ cd ../lesson-04
 $ terraform output target_public_ips
-target_public_ips = [
-  "18.217.223.87",
-  "18.219.179.242",
-  "52.14.207.168",
+[
+  "18.117.70.148",
+  "52.15.172.210",
+  "18.116.43.247",
 ]
 ```
 
 If we point a web browser to those IP addresses, we should see a webpage on 2 of them.
 
-![Welcome to nginx!](../screenshots/welcome-to-nginx.png)
+|![Welcome to nginx!](../screenshots/welcome-to-nginx.png)|
+-
 
 That works, but we really want something a little more bespoke. We can add some
 more configuration to the playbook and include a new home page. Add another variable
@@ -291,7 +206,7 @@ and a task to `nginx-playbook.yml`.
 
 The [template](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html)
 module uses Jinja2 to create a new home page for us. We need to create the
-`index.html.j2` template on the control node as well.
+[index.html.j2](./index.html.j2) template on the control node as well.
 
 ```html
 <!DOCTYPE html>
@@ -323,21 +238,47 @@ This time when we run the playbook, we see that the new task was executed and it
 was the only play that changed. The rest of the plays were idempotent.
 
 ```console
-ubuntu@ip-10-8-0-137:~$ ansible-playbook nginx-playbook.yml
+ubuntu@ip-10-8-0-26:~$ ansible-playbook nginx-playbook.yml
 
 PLAY [webservers] ******************************************************************************************************************
 ...
 TASK [Install a custom home page] **************************************************************************************************
-changed: [10.8.0.128]
-changed: [10.8.0.115]
+changed: [10.8.0.206]
+changed: [10.8.0.209]
 
 PLAY RECAP *************************************************************************************************************************
-10.8.0.115                 : ok=14   changed=1    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
-10.8.0.128                 : ok=14   changed=1    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
+10.8.0.206                 : ok=14   changed=1    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
+10.8.0.209                 : ok=14   changed=1    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
 ```
 
-![Hello, Gene!](../screenshots/hello-gene.png)
+|![Hello, Gene!](../screenshots/hello-gene.png)|
+-
 
 ## Installing MongoDB
+
+MongoDB is a popular NoSQL database. Create [mongodb-playbook.yml](./mongodb-playbook.yml) on the control node to call 
+the role.
+
+```yaml
+---
+- hosts: database
+  become: true
+  collections:
+    - community.mongodb
+
+  roles:
+    - mongodb_linux
+    - { role: mongodb_repository, mongodb_version: "5.0" }
+    - mongodb_install
+```
+
+```console
+ubuntu@ip-10-8-0-26:~$ ansible-playbook mongodb-playbook.yml
+
+PLAY [database] ********************************************************************************************************************
+...
+PLAY RECAP *************************************************************************************************************************
+10.8.0.188                 : ok=20   changed=11   unreachable=0    failed=0    skipped=5    rescued=0    ignored=0
+```
 
 ## End of Lesson 07

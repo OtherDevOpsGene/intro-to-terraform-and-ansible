@@ -38,23 +38,23 @@ $ terraform apply
 Outputs:
 
 target_instance_ids = [
-  "i-035fb3e7070884f0f",
-  "i-09fe5ddef8f69a2a6",
-  "i-057cbce3baaac9ef2",
+  "i-063e6e1b8ac71119d",
+  "i-035125762cbce935d",
+  "i-00fbe57ff4efea08a",
 ]
 target_private_ips = [
-  "10.8.0.87",
-  "10.8.0.115",
-  "10.8.0.128",
+  "10.8.0.188",
+  "10.8.0.209",
+  "10.8.0.206",
 ]
 target_public_ips = [
-  "18.217.223.87",
-  "18.219.179.242",
-  "52.14.207.168",
+  "18.117.70.148",
+  "52.15.172.210",
+  "18.116.43.247",
 ]
-workstation_instance_id = "i-0281a8a5956684cbc"
-workstation_private_ip = "10.8.0.137"
-workstation_public_ip = "3.143.203.49"
+workstation_instance_id = "i-02890a16937a7af84"
+workstation_private_ip = "10.8.0.26"
+workstation_public_ip = "3.142.171.59"
 ```
 
 ## Retrieving output values
@@ -66,14 +66,33 @@ the right state, or we'll have to use the `-state=path` option to point to the
 correct `terraform.tfstate` file.
 
 ```console
+$ terraform output
+target_instance_ids = [
+  "i-063e6e1b8ac71119d",
+  "i-035125762cbce935d",
+  "i-00fbe57ff4efea08a",
+]
+target_private_ips = [
+  "10.8.0.188",
+  "10.8.0.209",
+  "10.8.0.206",
+]
+target_public_ips = [
+  "18.117.70.148",
+  "52.15.172.210",
+  "18.116.43.247",
+]
+workstation_instance_id = "i-02890a16937a7af84"
+workstation_private_ip = "10.8.0.26"
+workstation_public_ip = "3.142.171.59"
 $ terraform output target_private_ips
 [
-  "10.8.0.87",
-  "10.8.0.115",
-  "10.8.0.128",
+  "10.8.0.188",
+  "10.8.0.209",
+  "10.8.0.206",
 ]
 $ terraform output workstation_public_ip
-"3.143.203.49"
+"3.142.171.59"
 ```
 
 ## Connect to the workstation
@@ -82,15 +101,15 @@ SSH into the Ansible workstation using the `workstation_public_ip` and the key f
 specified. The username is `ubuntu`.
 
 ```console
-$ ssh -i /mnt/c/Users/GotimerEugene/.ssh/gene-test-us-east-2.pem ubuntu@3.143.203.49
-The authenticity of host '3.143.203.49 (3.143.203.49)' can't be established.
-ED25519 key fingerprint is SHA256:/BG/g0mHfxvYpYrMNl7fQ3A+eNg89KVA5O3LEB9f3o4.
+$ ssh -i /mnt/c/Users/GotimerEugene/.ssh/gene-test-us-east-2.pem ubuntu@3.142.171.59
+The authenticity of host '3.142.171.59 (3.142.171.59)' can't be established.
+ED25519 key fingerprint is SHA256:s14sJUQRjUGCD5/9SE9SeVcfsV0f3qDocxrwrSPSMbM.
 This key is not known by any other names
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
-Warning: Permanently added '3.143.203.49' (ED25519) to the list of known hosts.
-Welcome to Ubuntu 21.10 (GNU/Linux 5.13.0-1007-aws x86_64)
+Warning: Permanently added '3.142.171.59' (ED25519) to the list of known hosts.
+Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.11.0-1023-aws x86_64)
 ...
-ubuntu@ip-10-8-0-137:~$
+ubuntu@ip-10-8-0-26:~$
 ```
 
 ## Verify Ansible is installed
@@ -99,7 +118,7 @@ On the Ansible workstation, we'll run our first Ansible command to verify it
 is installed correctly.
 
 ```console
-ubuntu@ip-10-8-0-137:~$ ansible localhost -m ping
+ubuntu@ip-10-8-0-26:~$ ansible localhost -m ping
 [WARNING]: No inventory was parsed, only implicit localhost is available
 localhost | SUCCESS => {
     "changed": false,

@@ -9,4 +9,4 @@ sudo apt-get -qq -o=Dpkg::Use-Pty=0 update
 sudo apt-get -qq -o=Dpkg::Use-Pty=0 -y install python3 python3-pip
 
 # Install Ansible
-python3 -m pip install --progress-bar off --user ansible
+pip3 install --quiet --progress-bar off --user ansible

@@ -1,0 +1,10 @@
+---
+- hosts: database
+  become: true
+  collections:
+    - community.mongodb
+
+  roles:
+    - mongodb_linux
+    - { role: mongodb_repository, mongodb_version: "5.0" }
+    - mongodb_install
