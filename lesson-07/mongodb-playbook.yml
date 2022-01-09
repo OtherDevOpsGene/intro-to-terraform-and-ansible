@@ -6,5 +6,6 @@
 
   roles:
     - mongodb_linux
-    - { role: mongodb_repository, mongodb_version: "5.0" }
+    - {role: mongodb_repository, mongodb_version: "5.0"}
     - mongodb_install
+    - {role: mongodb_mongod, bind_ip: "localhost,{{ ansible_default_ipv4.address }}", replicaset: false}

@@ -34,8 +34,8 @@ create the file locally and use `scp` to upload it.
 10.8.0.26
 
 [targets]
-10.8.0.188
-10.8.0.209
+10.8.0.10
+10.8.0.41
 10.8.0.206
 
 [all:children]
@@ -69,14 +69,14 @@ ubuntu@ip-10-8-0-26:~$ ansible -i inventory.ini targets -m ping
     "changed": false,
     "ping": "pong"
 }
-10.8.0.188 | SUCCESS => {
+10.8.0.10 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
     "changed": false,
     "ping": "pong"
 }
-10.8.0.209 | SUCCESS => {
+10.8.0.41 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
@@ -110,14 +110,14 @@ ubuntu@ip-10-8-0-26:~$ ansible targets -m ping
     "changed": false,
     "ping": "pong"
 }
-10.8.0.188 | SUCCESS => {
+10.8.0.10 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
     "changed": false,
     "ping": "pong"
 }
-10.8.0.209 | SUCCESS => {
+10.8.0.41 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
@@ -136,21 +136,21 @@ our inventory.
 ubuntu@ip-10-8-0-26:~$ ansible targets -a uptime
 10.8.0.206 | CHANGED | rc=0 >>
  19:11:13 up 19 min,  1 user,  load average: 0.00, 0.00, 0.00
-10.8.0.209 | CHANGED | rc=0 >>
+10.8.0.41 | CHANGED | rc=0 >>
  19:11:13 up 19 min,  1 user,  load average: 0.08, 0.02, 0.01
-10.8.0.188 | CHANGED | rc=0 >>
+10.8.0.10 | CHANGED | rc=0 >>
  19:11:13 up 19 min,  1 user,  load average: 0.00, 0.00, 0.00
 ubuntu@ip-10-8-0-26:~$ ansible all -a date
 10.8.0.206 | CHANGED | rc=0 >>
 Fri Jan  7 19:11:27 UTC 2022
-10.8.0.188 | CHANGED | rc=0 >>
+10.8.0.10 | CHANGED | rc=0 >>
 Fri Jan  7 19:11:28 UTC 2022
-10.8.0.209 | CHANGED | rc=0 >>
+10.8.0.41 | CHANGED | rc=0 >>
 Fri Jan  7 19:11:28 UTC 2022
 10.8.0.26 | CHANGED | rc=0 >>
 Fri Jan  7 19:11:28 UTC 2022
-ubuntu@ip-10-8-0-26:~$ ansible 10.8.0.209 -a "df -k"
-10.8.0.209 | CHANGED | rc=0 >>
+ubuntu@ip-10-8-0-26:~$ ansible 10.8.0.41 -a "df -k"
+10.8.0.41 | CHANGED | rc=0 >>
 Filesystem     1K-blocks    Used Available Use% Mounted on
 /dev/root        8065444 1490360   6558700  19% /
 devtmpfs          989876       0    989876   0% /dev
@@ -213,9 +213,9 @@ available packages so the package manager can find the package we are installing
 ubuntu@ip-10-8-0-26:~$ ansible targets -a "fortune"
 10.8.0.206 | FAILED | rc=2 >>
 [Errno 2] No such file or directory: b'fortune'
-10.8.0.188 | FAILED | rc=2 >>
+10.8.0.10 | FAILED | rc=2 >>
 [Errno 2] No such file or directory: b'fortune'
-10.8.0.209 | FAILED | rc=2 >>
+10.8.0.41 | FAILED | rc=2 >>
 [Errno 2] No such file or directory: b'fortune'
 ubuntu@ip-10-8-0-26:~$ ansible targets --become -m apt -a "name=fortune update_cache=true state=present"
 10.8.0.206 | CHANGED => {
@@ -227,7 +227,7 @@ ubuntu@ip-10-8-0-26:~$ ansible targets --become -m apt -a "name=fortune update_c
     "changed": true,
 ...
 }
-10.8.0.188 | CHANGED => {
+10.8.0.10 | CHANGED => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
@@ -236,7 +236,7 @@ ubuntu@ip-10-8-0-26:~$ ansible targets --become -m apt -a "name=fortune update_c
     "changed": true,
 ...
 }
-10.8.0.209 | CHANGED => {
+10.8.0.41 | CHANGED => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
@@ -249,9 +249,9 @@ ubuntu@ip-10-8-0-26:~$ ansible targets -a "fortune"
 10.8.0.206 | CHANGED | rc=0 >>
 Let me take you a button-hole lower.
                 -- William Shakespeare, "Love's Labour's Lost"
-10.8.0.188 | CHANGED | rc=0 >>
+10.8.0.10 | CHANGED | rc=0 >>
 Advancement in position.
-10.8.0.209 | CHANGED | rc=0 >>
+10.8.0.41 | CHANGED | rc=0 >>
 You two ought to be more careful--your love could drag on for years and years.
 ```
 
@@ -269,7 +269,7 @@ ubuntu@ip-10-8-0-26:~$ ansible all --become -m package -a "name=liblog4j2-java s
     },
     "changed": false
 }
-10.8.0.188 | SUCCESS => {
+10.8.0.10 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
@@ -281,7 +281,7 @@ ubuntu@ip-10-8-0-26:~$ ansible all --become -m package -a "name=liblog4j2-java s
     },
     "changed": false
 }
-10.8.0.209 | SUCCESS => {
+10.8.0.41 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
@@ -297,7 +297,7 @@ ubuntu@ip-10-8-0-26:~$ ansible all --become -m package -a "name=mlocate state=pr
     "changed": true,
 ...
 }
-10.8.0.188 | CHANGED => {
+10.8.0.10 | CHANGED => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
@@ -306,7 +306,7 @@ ubuntu@ip-10-8-0-26:~$ ansible all --become -m package -a "name=mlocate state=pr
     "changed": true,
 ...
 }
-10.8.0.209 | CHANGED => {
+10.8.0.41 | CHANGED => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
@@ -325,22 +325,22 @@ ubuntu@ip-10-8-0-26:~$ ansible all --become -m package -a "name=mlocate state=pr
 ...
 }
 ubuntu@ip-10-8-0-26:~$ ansible all --become -a "updatedb"
-10.8.0.188 | CHANGED | rc=0 >>
+10.8.0.10 | CHANGED | rc=0 >>
 
 10.8.0.206 | CHANGED | rc=0 >>
 
-10.8.0.209 | CHANGED | rc=0 >>
+10.8.0.41 | CHANGED | rc=0 >>
 
 10.8.0.26 | CHANGED | rc=0 >>
 
 ubuntu@ip-10-8-0-26:~$ ansible all -a "locate log4j"
 10.8.0.206 | FAILED | rc=1 >>
 non-zero return code
-10.8.0.188 | FAILED | rc=1 >>
+10.8.0.10 | FAILED | rc=1 >>
 non-zero return code
 10.8.0.26 | CHANGED | rc=0 >>
 /home/ubuntu/.local/lib/python3.8/site-packages/ansible_collections/community/windows/tests/integration/targets/win_xml/files/log4j.xml
-10.8.0.209 | FAILED | rc=1 >>
+10.8.0.41 | FAILED | rc=1 >>
 non-zero return code
 ```
 

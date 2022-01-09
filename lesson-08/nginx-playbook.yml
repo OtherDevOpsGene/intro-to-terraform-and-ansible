@@ -1,0 +1,49 @@
+---
+- hosts: database
+  name: Gather facts from database group
+  tasks: [ ]
+
+- hosts: webservers
+  become: true
+
+  vars:
+    php_packages_extra: ["php-mongodb"]
+    php_webserver_daemon: nginx
+    php_enable_php_fpm: true
+    nginx_listen_ipv6: false
+    nginx_remove_default_vhost: true
+    nginx_vhosts:
+      - listen: 80
+        server_name: "{{ ansible_default_ipv4.address }}"
+        root: /var/www/html
+        index: "index.php index.html"
+        state: present
+        extra_parameters: |
+          location ~ \.php$ {
+              fastcgi_split_path_info ^(.+\.php)(/.+)$;
+              fastcgi_pass 127.0.0.1:9000;
+              fastcgi_index index.php;
+              fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+              include fastcgi_params;
+          }
+
+  roles:
+    - geerlingguy.nginx
+    - geerlingguy.php
+
+  tasks:
+    - name: Install a custom home page
+      template:
+        src: index.php.j2
+        dest: /var/www/html/index.php
+        owner: www-data
+        group: www-data
+        mode: 0644
+
+    - name: Copy the style file
+      copy:
+        src: planets.css
+        dest: /var/www/html/planets.css
+        owner: www-data
+        group: www-data
+        mode: 0644

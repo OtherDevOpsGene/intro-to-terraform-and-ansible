@@ -48,24 +48,24 @@ PLAY [targets] *****************************************************************
 
 TASK [Gathering Facts] *************************************************************************************************************
 ok: [10.8.0.206]
-ok: [10.8.0.188]
-ok: [10.8.0.209]
+ok: [10.8.0.10]
+ok: [10.8.0.41]
 
 TASK [Install the fortune package] *************************************************************************************************
-ok: [10.8.0.188]
+ok: [10.8.0.10]
 ok: [10.8.0.206]
-ok: [10.8.0.209]
+ok: [10.8.0.41]
 
 TASK [Run fortune] *****************************************************************************************************************
 changed: [10.8.0.206]
-changed: [10.8.0.188]
-changed: [10.8.0.209]
+changed: [10.8.0.10]
+changed: [10.8.0.41]
 
 TASK [Display fortune results] *****************************************************************************************************
-ok: [10.8.0.188] => {
+ok: [10.8.0.10] => {
     "fortune_out.stdout": "It is a wise father that knows his own child.\n\t\t-- William Shakespeare, \"The Merchant of Venice\""
 }
-ok: [10.8.0.209] => {
+ok: [10.8.0.41] => {
     "fortune_out.stdout": "If more of us valued food and cheer and song above hoarded gold, it would\nbe a merrier world.\n\t\t-- J.R.R. Tolkien"
 }
 ok: [10.8.0.206] => {
@@ -73,9 +73,9 @@ ok: [10.8.0.206] => {
 }
 
 PLAY RECAP *************************************************************************************************************************
-10.8.0.188                 : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+10.8.0.10                  : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 10.8.0.206                 : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-10.8.0.209                 : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+10.8.0.41                  : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
 ```
 
@@ -122,37 +122,37 @@ ubuntu@ip-10-8-0-26:~$ ansible-playbook cowsay-playbook.yml
 PLAY [targets] *********************************************************************************************************************
 
 TASK [Gathering Facts] *************************************************************************************************************
-ok: [10.8.0.188]
+ok: [10.8.0.10]
 ok: [10.8.0.206]
-ok: [10.8.0.209]
+ok: [10.8.0.41]
 
 TASK [Install the fortune package] *************************************************************************************************
 ok: [10.8.0.206]
-ok: [10.8.0.188]
-ok: [10.8.0.209]
+ok: [10.8.0.10]
+ok: [10.8.0.41]
 
 TASK [Run fortune] *****************************************************************************************************************
 changed: [10.8.0.206]
-changed: [10.8.0.188]
-changed: [10.8.0.209]
+changed: [10.8.0.10]
+changed: [10.8.0.41]
 
 TASK [Install the cowsay package] **************************************************************************************************
 changed: [10.8.0.206]
-changed: [10.8.0.188]
-changed: [10.8.0.209]
+changed: [10.8.0.10]
+changed: [10.8.0.41]
 
 TASK [Run cowsay] ******************************************************************************************************************
-changed: [10.8.0.188]
+changed: [10.8.0.10]
 changed: [10.8.0.206]
-changed: [10.8.0.209]
+changed: [10.8.0.41]
 
 TASK [Display cowsay results] ******************************************************************************************************
-ok: [10.8.0.188] => {
+ok: [10.8.0.10] => {
     "cowsay_out.stdout_lines": [
-        " ________________________________________",
-        "/ ip-10-8-0-188: You will win success in \\",
-        "\\ whatever calling you adopt.            /",
-        " ----------------------------------------",
+        " _______________________________________",
+        "/ ip-10-8-0-10: You will win success in \\",
+        "\\ whatever calling you adopt.           /",
+        " ---------------------------------------",
         "        \\   ^__^",
         "         \\  (oo)\\_______",
         "            (__)\\       )\\/\\",
@@ -160,12 +160,12 @@ ok: [10.8.0.188] => {
         "                ||     ||"
     ]
 }
-ok: [10.8.0.209] => {
+ok: [10.8.0.41] => {
     "cowsay_out.stdout_lines": [
-        " ________________________________________",
-        "/ ip-10-8-0-209: You'll feel much better \\",
-        "\\ once you've given up hope.             /",
-        " ----------------------------------------",
+        " _______________________________________",
+        "/ ip-10-8-0-41: You'll feel much better \\",
+        "\\ once you've given up hope.            /",
+        " ---------------------------------------",
         "        \\   ^__^",
         "         \\  (oo)\\_______",
         "            (__)\\       )\\/\\",
@@ -188,20 +188,20 @@ ok: [10.8.0.206] => {
 }
 
 PLAY RECAP *************************************************************************************************************************
-10.8.0.188                 : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+10.8.0.10                  : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 10.8.0.206                 : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-10.8.0.209                 : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+10.8.0.41                  : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
 The `ansible_hostname` comes from the implicit `Gathering Facts` task. You can see
 what information Ansible knows for a host using the `setup` module.
 
 ```console
-ubuntu@ip-10-8-0-26:~$ ansible 10.8.0.209 -m setup | less
-10.8.0.209 | SUCCESS => {
+ubuntu@ip-10-8-0-26:~$ ansible 10.8.0.41 -m setup | less
+10.8.0.41 | SUCCESS => {
     "ansible_facts": {
 ...
-        "ansible_hostname": "ip-10-8-0-209",
+        "ansible_hostname": "ip-10-8-0-41",
 ...
     "changed": false
 }

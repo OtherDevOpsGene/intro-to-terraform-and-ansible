@@ -107,6 +107,16 @@ resource "aws_security_group_rule" "target_sg_allow_workstation_ssh" {
   source_security_group_id = aws_security_group.workstation_sg.id
 }
 
+resource "aws_security_group_rule" "target_sg_allow_workstation_mongodb" {
+  security_group_id        = aws_security_group.target_sg.id
+  type                     = "ingress"
+  description              = "Workstation MongoDB"
+  from_port                = 27017
+  to_port                  = 27017
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.workstation_sg.id
+}
+
 resource "aws_security_group_rule" "target_sg_allow_public_http" {
   security_group_id = aws_security_group.target_sg.id
   type              = "ingress"

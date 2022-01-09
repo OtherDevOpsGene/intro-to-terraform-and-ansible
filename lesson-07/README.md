@@ -21,8 +21,8 @@ Update the `inventory.ini` to add these groups so we can refer to the servers ea
 10.8.0.26
 
 [targets]
-10.8.0.188
-10.8.0.209
+10.8.0.10
+10.8.0.41
 10.8.0.206
 
 [all:children]
@@ -30,11 +30,11 @@ workstation
 targets
 
 [webservers]
-10.8.0.209
+10.8.0.41
 10.8.0.206
 
 [database]
-10.8.0.188
+10.8.0.10
 ```
 
 Test them with a `ping`.
@@ -48,7 +48,7 @@ ubuntu@ip-10-8-0-26:~$ ansible webservers -m ping
     "changed": false,
     "ping": "pong"
 }
-10.8.0.209 | SUCCESS => {
+10.8.0.41 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
@@ -56,7 +56,7 @@ ubuntu@ip-10-8-0-26:~$ ansible webservers -m ping
     "ping": "pong"
 }
 ubuntu@ip-10-8-0-26:~$ ansible database -m ping
-10.8.0.188 | SUCCESS => {
+10.8.0.10 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
@@ -155,11 +155,11 @@ PLAY [webservers] **************************************************************
 ...
 PLAY RECAP *************************************************************************************************************************
 10.8.0.206                 : ok=14   changed=4    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
-10.8.0.209                 : ok=14   changed=4    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
+10.8.0.41                  : ok=14   changed=4    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
 ```
 
 We need to find out what the public IP addresses for the targets are, knowing
-that 2 of the 3 of them are our webservers.
+that 2 of the 3 of them are our web servers.
 
 On our laptop, go to the `lesson-04` directory and pull up the Terraform output again.
 
@@ -168,12 +168,12 @@ $ cd ../lesson-04
 $ terraform output target_public_ips
 [
   "18.117.70.148",
-  "52.15.172.210",
+  "18.188.98.141",
   "18.116.43.247",
 ]
 ```
 
-If we point a web browser to those IP addresses, we should see a webpage on 2 of them.
+If we point a web browser to those IP addresses, we should see a web page on 2 of them.
 
 <kbd>
   <img alt="Welcome to nginx!" src="../screenshots/welcome-to-nginx.png"/>
@@ -202,6 +202,8 @@ and a task to `nginx-playbook.yml`.
       template:
         src: index.html.j2
         dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
         mode: 0644
 ```
 
@@ -245,11 +247,11 @@ PLAY [webservers] **************************************************************
 ...
 TASK [Install a custom home page] **************************************************************************************************
 changed: [10.8.0.206]
-changed: [10.8.0.209]
+changed: [10.8.0.41]
 
 PLAY RECAP *************************************************************************************************************************
 10.8.0.206                 : ok=14   changed=1    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
-10.8.0.209                 : ok=14   changed=1    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
+10.8.0.41                  : ok=14   changed=1    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
 ```
 
 <kbd>
@@ -258,7 +260,8 @@ PLAY RECAP *********************************************************************
 
 ## Installing MongoDB
 
-MongoDB is a popular NoSQL database. Create [mongodb-playbook.yml](./mongodb-playbook.yml) on the control node to call
+We'll use MongoDB as our database backend. Create [mongodb-playbook.yml](./mongodb-playbook.yml) on the control 
+node to call
 the role.
 
 ```yaml
@@ -270,8 +273,9 @@ the role.
 
   roles:
     - mongodb_linux
-    - { role: mongodb_repository, mongodb_version: "5.0" }
+    - {role: mongodb_repository, mongodb_version: "5.0"}
     - mongodb_install
+    - {role: mongodb_mongod, bind_ip: "localhost,{{ ansible_default_ipv4.address }}", replicaset: false}
 ```
 
 ```console
@@ -280,7 +284,25 @@ ubuntu@ip-10-8-0-26:~$ ansible-playbook mongodb-playbook.yml
 PLAY [database] ********************************************************************************************************************
 ...
 PLAY RECAP *************************************************************************************************************************
-10.8.0.188                 : ok=20   changed=11   unreachable=0    failed=0    skipped=5    rescued=0    ignored=0
+10.8.0.10                  : ok=20   changed=11   unreachable=0    failed=0    skipped=5    rescued=0    ignored=0
 ```
+
+Let's verify from the control node that the `mongod` service is running on our database node, meaning that MongoDB is
+installed and running, even if we aren't using it yet.
+
+```console
+ubuntu@ip-10-8-0-26:~$ ansible database -m service -a 'name=mongod state=started' --check
+10.8.0.10 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "name": "mongod",
+    "state": "started",
+...
+```
+
+So we have two web servers with a templated home page and an empty database installed.
+The next step is to put them together.
 
 ## End of Lesson 07

@@ -5,7 +5,7 @@
   vars:
     nginx_vhosts:
       - listen: "80"
-        server_name: "example.com"
+        server_name: "default"
 
   roles:
-    - {role: geerlingguy.nginx}
+    - geerlingguy.nginx

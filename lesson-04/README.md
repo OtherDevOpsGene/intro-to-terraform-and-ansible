@@ -43,13 +43,13 @@ target_instance_ids = [
   "i-00fbe57ff4efea08a",
 ]
 target_private_ips = [
-  "10.8.0.188",
-  "10.8.0.209",
+  "10.8.0.10",
+  "10.8.0.41",
   "10.8.0.206",
 ]
 target_public_ips = [
   "18.117.70.148",
-  "52.15.172.210",
+  "18.188.98.141",
   "18.116.43.247",
 ]
 workstation_instance_id = "i-02890a16937a7af84"
@@ -73,13 +73,13 @@ target_instance_ids = [
   "i-00fbe57ff4efea08a",
 ]
 target_private_ips = [
-  "10.8.0.188",
-  "10.8.0.209",
+  "10.8.0.10",
+  "10.8.0.41",
   "10.8.0.206",
 ]
 target_public_ips = [
   "18.117.70.148",
-  "52.15.172.210",
+  "18.188.98.141",
   "18.116.43.247",
 ]
 workstation_instance_id = "i-02890a16937a7af84"
@@ -87,8 +87,8 @@ workstation_private_ip = "10.8.0.26"
 workstation_public_ip = "3.142.171.59"
 $ terraform output target_private_ips
 [
-  "10.8.0.188",
-  "10.8.0.209",
+  "10.8.0.10",
+  "10.8.0.41",
   "10.8.0.206",
 ]
 $ terraform output workstation_public_ip
