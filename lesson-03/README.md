@@ -117,7 +117,7 @@ variable "instance_type" {
 Create `dev.tfvars`:
 
 ```terraform
-instance_type = "t2.micro"
+instance_type = "t2.small"
 ```
 
 Create `prod.tfvars`:
