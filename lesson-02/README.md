@@ -4,8 +4,8 @@ We did some Terraform basics, now we can add some more finesse.
 
 ## Variables
 
-Start with almost the same definition we had last time. Create a new
-[main.tf](./main.tf).
+Start with almost the same definition we had last time. Examine
+[main.tf](./main.tf), with this `aws_instance` resource:
 
 ```terraform
 resource "aws_instance" "app_server" {
@@ -62,7 +62,7 @@ variable "instance_name" {
 }
 ```
 
-and change the tag definition to:
+and change the tag definition in `main.tf` to:
 
 ```terraform
   tags = {
