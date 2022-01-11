@@ -22,12 +22,13 @@ is a list of the systems that we are managing with Ansible.
 
 Create `inventory.ini` on the workstation listing the *private* IP addresses for
 the workstation and target systems.
-You can use `terraform output workstation_private_ip` and
-`terraform output target_private_ips` on your laptop in the `lesson-04`
-directory to get the values you need.
+We can use `terraform output workstation_private_ip` and
+`terraform output target_private_ips` on our laptop in the `lesson-04`
+directory to get the values we need.
 
 Either use `pico` or `vi` on the workstation via an SSH connection, or
-create the file locally and use `scp` to upload it.
+create the file locally and use `scp` to upload it. Git is also available
+to clone this repository onto the workstation.
 
 ```ini
 [workstation]

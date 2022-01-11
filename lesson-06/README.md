@@ -193,7 +193,7 @@ PLAY RECAP *********************************************************************
 10.8.0.41                  : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-The `ansible_hostname` comes from the implicit `Gathering Facts` task. You can see
+The `ansible_hostname` comes from the implicit `Gathering Facts` task. We can see
 what information Ansible knows for a host using the `setup` module.
 
 ```console

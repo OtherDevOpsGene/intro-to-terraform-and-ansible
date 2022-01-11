@@ -97,8 +97,8 @@ $ terraform output workstation_public_ip
 
 ## Connect to the workstation
 
-SSH into the Ansible workstation using the `workstation_public_ip` and the key file you
-specified. The username is `ubuntu`.
+SSH into the Ansible workstation using the `workstation_public_ip` and the key file
+we specified. The username is `ubuntu`.
 
 ```console
 $ ssh -i /mnt/c/Users/GotimerEugene/.ssh/gene-test-us-east-2.pem ubuntu@3.142.171.59
