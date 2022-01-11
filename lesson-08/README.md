@@ -80,4 +80,4 @@ $ terraform destroy
 
 ## End of Lesson 08
 
-This is the final lesson, (*at least for now*).
+This is the final lesson, *at least for now*.
