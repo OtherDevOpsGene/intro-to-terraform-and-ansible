@@ -157,6 +157,9 @@ If you choose to go that route, caveat lector. The necessary changes are left as
 
 ## End of Lesson 04
 
+In the next lesson, we'll go over some
+[Ansible basics](../lesson-05/README.md).
+
 # Terraform documentation
 
 <!-- BEGIN_TF_DOCS -->

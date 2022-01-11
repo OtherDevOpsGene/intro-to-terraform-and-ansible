@@ -345,3 +345,6 @@ non-zero return code
 ```
 
 ## End of Lesson 05
+
+In the next lesson, we'll learn about
+[Ansible playbooks](../lesson-06/README.md).

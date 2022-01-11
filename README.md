@@ -4,6 +4,22 @@ A hands-on workshop to become familiar with [Hashicorp Terraform](https://www.te
 to provision and configure infrastructure and [Red Hat Ansible](https://github.com/ansible/ansible)
 to configure systems and deploy applications.
 
+## Lessons
+
+### Terraform
+
+* [Lesson-01](lesson-01/README.md) - Terraform basics
+* [Lesson-02](lesson-02/README.md) - Terraform variables, output, and data
+* [Lesson-03](lesson-03/README.md) - More Terraform variables, plans, workspaces, and security
+* [Lesson-04](lesson-04/README.md) - Building an Ansible sandbox
+
+### Ansible
+
+* [Lesson-05](lesson-05/README.md) - Ansible basics
+* [Lesson-06](lesson-06/README.md) - Playbook basics
+* [Lesson-07](lesson-07/README.md) - Practical Ansible
+* [Lesson-08](lesson-08/README.md) - Full web application
+
 ## Reference documentation
 
 * [Terraform AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)

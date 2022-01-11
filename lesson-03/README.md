@@ -369,3 +369,6 @@ recommendations for a reason. Whenever we ignore any of the suggestions, we are
 accepting some amount of risk.
 
 ## End of Lesson 03
+
+In the next lesson, we'll use Terraform to
+[create an environment for using Ansible](../lesson-04/README.md).

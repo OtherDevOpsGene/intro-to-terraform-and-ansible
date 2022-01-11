@@ -306,3 +306,6 @@ So we have two web servers with a templated home page and an empty database inst
 The next step is to put them together.
 
 ## End of Lesson 07
+
+In the final lesson, we'll expand upon this set up and stand up
+[a full web application](../lesson-08/README.md).

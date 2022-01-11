@@ -262,3 +262,6 @@ them back-to-back and see no changes the second time. The thinking and planning
 sometimes takes some getting used to.
 
 ## End of Lesson 06
+
+In the next lesson, we'll use Ansible to do something
+[a little more practical](../lesson-07/README.md).

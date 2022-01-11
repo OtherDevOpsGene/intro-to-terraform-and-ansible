@@ -2,7 +2,8 @@
 
 ## Hello world
 
-Start by creating an EC2 instance using Terraform.
+Start by creating an EC2 instance using Terraform. Create [main.cf](./main.cf)
+with the following contents:
 
 ```terraform
 resource "aws_instance" "my_server" {
@@ -14,6 +15,8 @@ resource "aws_instance" "my_server" {
   }
 }
 ```
+
+Then we'll initialize Terraform and apply the code to create our infrastructure.
 
 ```console
 $ ls -A
@@ -80,7 +83,8 @@ The EC2 instance is created in AWS.
 
 ## See what we have created
 
-We don't have look at the AWS Console to see the details, though.
+We don't have look at the AWS Console to see the details, though. Terraform
+lets us see what it did via the state file.
 
 ```console
 $ ls -A
@@ -162,7 +166,7 @@ Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
 
 ## Add another server
 
-We can also do something more complex, like increasing the number of servers.
+We can also do something more dramatic, like increasing the number of servers.
 
 ```terraform
 resource "aws_instance" "my_server" {
@@ -286,3 +290,6 @@ Destroy complete! Resources: 2 destroyed.
 ```
 
 ## End of Lesson 01
+
+In the next lesson, we'll work with
+[Terraform variables, output, and data](../lesson-02/README.md).

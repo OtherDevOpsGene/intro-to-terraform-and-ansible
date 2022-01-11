@@ -397,3 +397,6 @@ $ terraform destroy
 ```
 
 ## End of Lesson 02
+
+In the next lesson, we'll play with
+[more Terraform variables, plans, workspaces, and security](../lesson-03/README.md).
