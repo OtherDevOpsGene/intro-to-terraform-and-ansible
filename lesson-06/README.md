@@ -1,7 +1,8 @@
 # Lesson 06 - Playbook basics
 
 *Except where noted, these instructions should be run on the Ansible workstation
-(i.e., control node) we stood up in Lesson 04.*
+(i.e., control node) we stood up in [Lesson 04](../lesson-04/README.md).
+Run that lesson now, if needed.*
 
 Using Ansible for ad-hoc tasks might be a convenience for investigations or
 emergencies, but we really want to use Ansible to focus on repeatability and

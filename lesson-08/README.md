@@ -1,7 +1,8 @@
 # Lesson 08 - Full web application
 
 *Except where noted, these instructions should be run on the Ansible workstation
-(i.e., control node) we stood up in Lesson 04.*
+(i.e., control node) we stood up in [Lesson 04](../lesson-04/README.md).
+Run that lesson now, if needed.*
 
 Building upon the previous lesson, we are going to install and configure NGINX
 onm two of our target servers and MongoDB on the other. We will load data into

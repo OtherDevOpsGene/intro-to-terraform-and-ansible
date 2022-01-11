@@ -1,7 +1,8 @@
 # Lesson 05 - Ansible basics
 
 *Except where noted, these instructions should be run on the Ansible workstation
-(i.e., control node) we stood up in Lesson 04.*
+(i.e., control node) we stood up in [Lesson 04](../lesson-04/README.md).
+Run that lesson now, if needed.*
 
 ## Inventory file
 

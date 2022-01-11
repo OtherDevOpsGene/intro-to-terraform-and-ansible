@@ -1,7 +1,8 @@
 # Lesson 07 - Practical Ansible
 
 *Except where noted, these instructions should be run on the Ansible workstation
-(i.e., control node) we stood up in Lesson 04.*
+(i.e., control node) we stood up in [Lesson 04](../lesson-04/README.md).
+Run that lesson now, if needed.*
 
 Often the applications we are deploying involve than just one system. And the
 packages we deploy usually need some custom configuration, defining directories
