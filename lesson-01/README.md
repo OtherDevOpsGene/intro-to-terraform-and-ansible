@@ -2,8 +2,8 @@
 
 ## Hello world
 
-Start by creating an EC2 instance using Terraform. Create [main.cf](./main.cf)
-with the following contents:
+Start by creating an EC2 instance using Terraform. Look at [main.tf](./main.tf),
+especially the following section:
 
 ```terraform
 resource "aws_instance" "my_server" {
@@ -16,7 +16,10 @@ resource "aws_instance" "my_server" {
 }
 ```
 
-Then we'll initialize Terraform and apply the code to create our infrastructure.
+The first part of the file tells Terraform what versions and providers we will
+be using, and the `aws_instance` resource is actually defining some infrastructure.
+
+We'll initialize Terraform and apply the code to create our infrastructure.
 
 ```console
 $ ls -A
