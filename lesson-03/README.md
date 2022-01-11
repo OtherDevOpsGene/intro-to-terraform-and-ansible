@@ -1,5 +1,8 @@
 # Lesson 03 - More Terraform variables, plans, workspaces, and security
 
+We'll look into some things we can do to make Terraform more suitable
+to a workflow, whether it is manual or automated.
+
 ## Plans and more variables
 
 Terraform will run any `*.tf` file in the directory. The `plan` command is

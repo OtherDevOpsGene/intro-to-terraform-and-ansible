@@ -5,7 +5,7 @@
 Run that lesson now, if needed.*
 
 Building upon the previous lesson, we are going to install and configure NGINX
-onm two of our target servers and MongoDB on the other. We will load data into
+on two of our target servers and MongoDB on the other. We will load data into
 the database and install a simple web page to look up data from that database we
 just initialized.
 

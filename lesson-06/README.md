@@ -82,7 +82,7 @@ PLAY RECAP *********************************************************************
 
 We can extend the example to use additional packages as well.
 
-Copying
+Copy
 [cowsay-playbook.yml](./fortune-playbook.yml) to the control node and run it as
 a playbook.
 

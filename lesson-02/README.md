@@ -1,8 +1,11 @@
 # Lesson 02 - Terraform variables, output, and data
 
+We did some Terraform basics, now we can add some more finesse.
+
 ## Variables
 
-Start with almost the same definition we had last time.
+Start with almost the same definition we had last time. Create a new
+[main.tf](./main.tf).
 
 ```terraform
 resource "aws_instance" "app_server" {
@@ -14,6 +17,8 @@ resource "aws_instance" "app_server" {
   }
 }
 ```
+
+Then initialize and apply.
 
 ```console
 $ terraform init
@@ -46,7 +51,8 @@ aws_instance.app_server: Creation complete after 33s [id=i-01d1efdc6bd9ae04d]
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 ```
 
-But now let's make the name tag variable by adding a `variables.tf` file:
+That worked. But now let's make the name tag variable by adding a
+`variables.tf` file:
 
 ```terraform
 variable "instance_name" {
@@ -296,7 +302,7 @@ app_server_public_ips = [
 ## Data
 
 The AMI ID `ami-0629230e074c580f2` is an image for Ubuntu 20.04 LTS in us-east-2.
-The Ubuntu image list can found at <https://cloud-images.ubuntu.com/locator/ec2/>.
+The Ubuntu image list is at <https://cloud-images.ubuntu.com/locator/ec2/>.
 
 Rather than hard-coding the AMI ID, we can look it up at provisioning time.
 
@@ -352,7 +358,7 @@ downtime if we were to keep replacing the AMI to stay current.
 
 We can change the lifecycle to make sure it stands up the new instances and then
 destroys the old so that we don't have unavailability (at the cost of having more
-servers running for a short period of time).
+servers running for a short, overlapped period of time).
 
 ```terraform
 resource "aws_instance" "app_server" {
@@ -390,7 +396,7 @@ Plan: 2 to add, 0 to change, 2 to destroy.
 
 ## Clean up
 
-We can clean up what we created.
+We should clean up what we created.
 
 ```console
 $ terraform destroy

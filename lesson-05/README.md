@@ -4,6 +4,9 @@
 (i.e., control node) we stood up in [Lesson 04](../lesson-04/README.md).
 Run that lesson now, if needed.*
 
+The basics of Ansible begin with setting up an inventory, and then we can
+look into how to run commands.
+
 ## Inventory file
 
 The Ansible `ping` module we ran to verify the installation didn't do much
@@ -348,5 +351,5 @@ non-zero return code
 
 ## End of Lesson 05
 
-In the next lesson, we'll learn about
+In the next lesson, we'll learn about re-runnable
 [Ansible playbooks](../lesson-06/README.md).

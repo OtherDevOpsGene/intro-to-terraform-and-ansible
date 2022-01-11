@@ -1,13 +1,16 @@
 # Lesson 04 - Building an Ansible sandbox
 
-Use Terraform to stand up an environment to use Ansible from and on. The Ansible control node, which is where
-Ansible runs from, needs to be a Linux system with Python 3.8+ installed. There will be 3 target systems we will
-configure using Ansible, and they will have there web server ports exposed to the public internet, but will otherwise
-only be accessible from the control node and other targets.
+We will use Terraform to stand up an environment to use Ansible from and on.
+The Ansible control node, which is where Ansible runs from, needs to be a Linux
+system with Python 3.8+ installed. We will create 3 target systems that we will
+configure using Ansible. Those systems will have the web server ports exposed to
+the public internet, but will otherwise only be accessible from the control node
+and other targets.
 
 ## Using the Terraform code
 
-The variables that need to be populated are listed in the documentation at the bottom of this file.
+The variables that need to be populated are listed in the documentation at the
+bottom of this file.
 This documentation is generated from the Terraform code itself using
 [terraform-docs](https://github.com/terraform-docs/terraform-docs).
 
@@ -132,7 +135,7 @@ the target (`localhost` in this case) and run a command.
 ## Leave the environment running
 
 We'll leave the environment running for now since we'll be using it for the
-upcoming lessons. We can destroy it later (and recreate it if we need to).
+upcoming lessons. We can destroy it later (and recreate it again if we need to).
 
 ## Why not local Ansible
 
@@ -157,7 +160,7 @@ If you choose to go that route, caveat lector. The necessary changes are left as
 
 ## End of Lesson 04
 
-In the next lesson, we'll go over some
+In the next lesson, we'll start looking at some
 [Ansible basics](../lesson-05/README.md).
 
 # Terraform documentation

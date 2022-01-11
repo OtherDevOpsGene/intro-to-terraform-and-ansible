@@ -11,7 +11,7 @@ and permissions, or pointing a web application to the database backend, for exam
 ## Web application architecture
 
 A typical web application might involve a pair of load-balanced web servers with
-a database backend. For our purposes, we'll skip the load balancer and use
+a database backend. For our workshop purposes, we'll skip the load balancer and use
 two of our three targets as [NGINX](https://www.nginx.com/) web servers.
 The remaining target will be a [MongoDB](https://www.mongodb.com/) database server.
 
