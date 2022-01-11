@@ -52,7 +52,7 @@ PLAY RECAP *********************************************************************
 10.8.0.69                  : ok=51   changed=18   unreachable=0    failed=0    skipped=16   rescued=0    ignored=0
 10.8.0.89                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
-ubuntu@ip-10-8-0-26:~$ ansible-playbook mongodb-playbook.yml 
+ubuntu@ip-10-8-0-26:~$ ansible-playbook mongodb-playbook.yml
 
 PLAY [database] ********************************************************************************************************************
 ...

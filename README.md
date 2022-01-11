@@ -6,14 +6,14 @@ to configure systems and deploy applications.
 
 ## Lessons
 
-### Terraform
+### Terraform lessons
 
 * [Lesson-01](lesson-01/README.md) - Terraform basics
 * [Lesson-02](lesson-02/README.md) - Terraform variables, output, and data
 * [Lesson-03](lesson-03/README.md) - More Terraform variables, plans, workspaces, and security
 * [Lesson-04](lesson-04/README.md) - Building an Ansible sandbox
 
-### Ansible
+### Ansible lessons
 
 * [Lesson-05](lesson-05/README.md) - Ansible basics
 * [Lesson-06](lesson-06/README.md) - Playbook basics

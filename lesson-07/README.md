@@ -110,7 +110,7 @@ The `geerlingguy.nginx` role in an Ansible role, which is a package of at least
 tasks and metadata code, and could include more code collected into
 [standard directories](https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html#id2).
 
-```
+```text
 playbook.yml
 roles/
   rolename/
@@ -260,7 +260,7 @@ PLAY RECAP *********************************************************************
 
 ## Installing MongoDB
 
-We'll use MongoDB as our database backend. Create [mongodb-playbook.yml](./mongodb-playbook.yml) on the control 
+We'll use MongoDB as our database backend. Create [mongodb-playbook.yml](./mongodb-playbook.yml) on the control
 node to call
 the role.
 
