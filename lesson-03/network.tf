@@ -82,6 +82,7 @@ resource "aws_security_group" "webserver_sg" {
   }
 
   egress {
+    description      = "Allow all traffic out"
     from_port        = 0
     to_port          = 0
     protocol         = "-1"

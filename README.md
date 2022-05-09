@@ -42,7 +42,7 @@ on your laptop and make sure it is on your path.
 
 ```console
 $ terraform --version
-Terraform v1.1.2
+Terraform v1.1.9
 on linux_amd64
 ```
 
@@ -55,7 +55,7 @@ Other OSes likely have the client already installed.
 
 ```console
 $ ssh -V
-OpenSSH_8.8p1, OpenSSL 1.1.1l  24 Aug 2021
+OpenSSH_8.9p1, OpenSSL 1.1.1n  15 Mar 2022
 ```
 
 ### AWS account with adequate permissions

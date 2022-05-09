@@ -338,8 +338,7 @@ $ terraform apply
 aws_instance.app_server[1]: Refreshing state... [id=i-013547aa4d86f252e]
 aws_instance.app_server[0]: Refreshing state... [id=i-01d1efdc6bd9ae04d]
 
-Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with
-the following symbols:
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
 -/+ destroy and then create replacement
 
 Terraform will perform the following actions:
