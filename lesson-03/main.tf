@@ -25,7 +25,6 @@ resource "aws_instance" "webserver" {
   subnet_id              = aws_subnet.public_subnet.id
   key_name               = var.key_name
 
-
   metadata_options {
     http_endpoint = "enabled"
     http_tokens   = "required"

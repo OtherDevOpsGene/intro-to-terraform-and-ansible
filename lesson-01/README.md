@@ -29,9 +29,9 @@ $ terraform init
 Initializing the backend...
 
 Initializing provider plugins...
-- Finding hashicorp/aws versions matching "~> 3.65"...
-- Installing hashicorp/aws v3.65.0...
-- Installed hashicorp/aws v3.65.0 (signed by HashiCorp)
+- Finding hashicorp/aws versions matching "~> 4.13.0"...
+- Installing hashicorp/aws v4.13.0...
+- Installed hashicorp/aws v4.13.0 (signed by HashiCorp)
 
 Terraform has created a lock file .terraform.lock.hcl to record the provider
 selections it made above. Include this file in your version control repository
@@ -95,7 +95,7 @@ $ ls -A
 $ less terraform.tfstate
 {
   "version": 4,
-  "terraform_version": "1.0.11",
+  "terraform_version": "1.1.9",
 ...
 
 $ terraform show
@@ -186,7 +186,6 @@ resource "aws_instance" "my_server" {
 ```console
 $ terraform apply
 aws_instance.my_server[0]: Refreshing state... [id=i-0a5a581bcf1c1fef6]
-...
 
 Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
   + create
@@ -195,6 +194,7 @@ Terraform used the selected providers to generate the following execution plan. 
 Terraform will perform the following actions:
 
   # aws_instance.my_server[0] will be updated in-place
+  # (moved from aws_instance.my_server)
   ~ resource "aws_instance" "my_server" {
         id                                   = "i-0a5a581bcf1c1fef6"
       ~ tags                                 = {
@@ -203,10 +203,10 @@ Terraform will perform the following actions:
       ~ tags_all                             = {
           ~ "Name" = "tf-lesson-01" -> "tf-lesson-01-0"
         }
-        # (27 unchanged attributes hidden)
+        # (28 unchanged attributes hidden)
 
 
-        # (5 unchanged blocks hidden)
+        # (6 unchanged blocks hidden)
     }
 
   # aws_instance.my_server[1] will be created
@@ -228,8 +228,7 @@ aws_instance.my_server[0]: Modifications complete after 2s [id=i-0a5a581bcf1c1fe
 aws_instance.my_server[1]: Still creating... [10s elapsed]
 aws_instance.my_server[1]: Still creating... [20s elapsed]
 aws_instance.my_server[1]: Still creating... [30s elapsed]
-aws_instance.my_server[1]: Still creating... [40s elapsed]
-aws_instance.my_server[1]: Creation complete after 43s [id=i-055c6c695256a4a3f]
+aws_instance.my_server[1]: Creation complete after 31s [id=i-055c6c695256a4a3f]
 
 Apply complete! Resources: 1 added, 1 changed, 0 destroyed.
 ```

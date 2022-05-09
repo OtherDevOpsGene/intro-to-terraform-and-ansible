@@ -290,7 +290,7 @@ Create a configuration file as `.tflint.hcl`:
 ```terraform
 plugin "aws" {
   enabled = true
-  version = "0.10.1"
+  version = "0.13.4"
   source  = "github.com/terraform-linters/tflint-ruleset-aws"
 }
 ```
@@ -303,7 +303,7 @@ $ curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/inst
 Looking up the latest version ...
 ...
 Current tflint version
-TFLint version 0.34.1
+TFLint version 0.36.2
 ```
 
 Initialize the configuration once, and then we can use `tflint` to review our
@@ -312,7 +312,7 @@ code.
 ```console
 $ tflint --init
 Installing `aws` plugin...
-Installed `aws` (source: github.com/terraform-linters/tflint-ruleset-aws, version: 0.10.1)
+Installed `aws` (source: github.com/terraform-linters/tflint-ruleset-aws, version: 0.13.4)
 $ tflint
 1 issue(s) found:
 
@@ -359,11 +359,11 @@ $ checkov -d .
  | (__| | | |  __/ (__|   < (_) \ V /
   \___|_| |_|\___|\___|_|\_\___/ \_/
 
-By bridgecrew.io | version: 2.0.692
+By bridgecrew.io | version: 2.0.1129
 
 terraform scan results:
 
-Passed checks: 10, Failed checks: 5, Skipped checks: 0
+Passed checks: 12, Failed checks: 4, Skipped checks: 0
 ...
 ```
 
