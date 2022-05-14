@@ -1,4 +1,3 @@
-db = db.getSiblingDB('solarsystemdb');
 db.createCollection('planets');
 db.planets.insertMany(
   [

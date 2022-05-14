@@ -16,7 +16,7 @@
       try {
         $mongo = new MongoDB\Driver\Manager('mongodb://{{ hostvars[groups['database'][0]]['ansible_default_ipv4']['address'] }}');
         $query = new MongoDB\Driver\Query([]);
-        $docs = $mongo->executeQuery("solarsystemdb.planets", $query);
+        $docs = $mongo->executeQuery("test.planets", $query);
 
       } catch (MongoDB\Driver\Exception\Exception $e) {
         ?>
