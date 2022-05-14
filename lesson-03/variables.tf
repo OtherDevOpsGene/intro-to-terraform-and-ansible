@@ -23,3 +23,8 @@ variable "key_name" {
   description = "Name of an already-installed AWS keypair"
   type        = string
 }
+
+variable "instance_type" {
+  description = "Webserver instance type"
+  type        = string
+}

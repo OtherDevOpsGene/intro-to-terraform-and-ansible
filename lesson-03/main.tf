@@ -20,7 +20,7 @@ resource "aws_instance" "webserver" {
 
   count                  = 2
   ami                    = data.aws_ami.ubuntu_linux.id
-  instance_type          = "t2.micro"
+  instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.webserver_sg.id]
   subnet_id              = aws_subnet.public_subnet.id
   key_name               = var.key_name
