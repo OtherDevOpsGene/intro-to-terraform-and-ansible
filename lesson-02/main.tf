@@ -14,11 +14,31 @@ provider "aws" {
   region  = "us-east-2"
 }
 
+data "aws_ami" "ubuntu_linux" {
+  most_recent = true
+  owners      = ["099720109477"]
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-*-20.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
 resource "aws_instance" "app_server" {
-  ami           = "ami-0629230e074c580f2"
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  count         = 2
+  ami           = data.aws_ami.ubuntu_linux.id
   instance_type = "t2.micro"
 
   tags = {
-    Name = "app-server"
+    Name = "${var.instance_name}-${count.index}"
   }
 }
