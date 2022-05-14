@@ -177,7 +177,7 @@ In the next lesson, we'll start looking at some
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.71.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.13.0 |
 
 ## Modules
 

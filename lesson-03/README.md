@@ -15,10 +15,21 @@ $ ls -A
 $ terraform init
 ...
 $ terraform plan
+var.aws_region
+  AWS region to build in
+
+  Enter a value: us-east-2
+
+var.key_name
+  Name of an already-installed AWS keypair
+
+  Enter a value: gene-test-us-east-2
+
 var.owner_email
   Email address to tag resources with
 
   Enter a value: eugene.gotimer@steampunk.com
+
 
 Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
   + create
@@ -28,7 +39,7 @@ Terraform will perform the following actions:
 Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
 ```
 
-A variable specified like this will need to be set each time, making it manual
+Variables specified like this will need to be set each time, making it manual
 to repeat a build.
 
 Sometimes values will be set for each user, but will remain constant once set.
@@ -170,7 +181,7 @@ As we've seen, Terraform will not make any changes that it doesn't need to. If a
 resource is already correctly configured, it doesn't recreate it or make any changes.
 
 ```console
-$ terraform apply
+$ terraform apply -var-file=prod.tfvars
 ...
 No changes. Your infrastructure matches the configuration.
 
@@ -179,18 +190,11 @@ Your configuration already matches the changes detected above. If you'd like to 
 
 Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
 ...
-$ terraform apply -refresh-only
+$ terraform apply -var-file=prod.tfvars -refresh-only
 ...
 No changes. Your infrastructure still matches the configuration.
 
 Terraform has checked that the real remote objects still match the result of your most recent changes, and found no differences.
-
-Would you like to update the Terraform state for "prod" to reflect these detected changes?
-  Terraform will write these changes to the state without modifying any real infrastructure.
-  There is no undo. Only 'yes' will be accepted to confirm.
-
-  Enter a value: yes
-
 
 Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
 
@@ -218,7 +222,7 @@ aws_route_table_association.rta_subnet_public
 aws_security_group.webserver_sg
 aws_subnet.public_subnet
 aws_vpc.sandbox_vpc
-$ terraform apply -replace="aws_instance.webserver[0]"
+$ terraform apply -replace="aws_instance.webserver[0]" -var-file=prod.tfvars
 ...
 Terraform will perform the following actions:
 ...
@@ -235,12 +239,12 @@ $ terraform workspace list
   dev
 * prod
 
-$ terraform destroy
+$ terraform destroy -var-file=prod.tfvars
 ...
 Destroy complete! Resources: 11 destroyed.
 $ terraform workspace select dev
 Switched to workspace "dev".
-$ terraform destroy
+$ terraform destroy -var-file=dev.tfvars
 ...
 Destroy complete! Resources: 11 destroyed.
 $ terraform workspace select default
@@ -359,7 +363,7 @@ $ checkov -d .
  | (__| | | |  __/ (__|   < (_) \ V /
   \___|_| |_|\___|\___|_|\_\___/ \_/
 
-By bridgecrew.io | version: 2.0.1129
+By bridgecrew.io | version: 2.0.1140
 
 terraform scan results:
 
