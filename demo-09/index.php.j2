@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+  <head>
+    <title>Planets in the Solar System</title>
+    <link rel="stylesheet" href="/planets.css" />
+  </head>
+
+  <body>
+    <h1>Planets in the Solar System</h1>
+
+    <p>This is a dynamic PHP page running on {{ ansible_hostname }}
+    and retrieving data from MongoDB running on {{ hostvars[groups['database'][0]]['ansible_default_ipv4']['address'] }}.</p>
+
+    <?php
+      error_reporting(E_ALL);
+      try {
+        $mongo = new MongoDB\Driver\Manager('mongodb://{{ hostvars[groups['database'][0]]['ansible_default_ipv4']['address'] }}');
+        $query = new MongoDB\Driver\Query([]);
+        $docs = $mongo->executeQuery("test.planets", $query);
+
+      } catch (MongoDB\Driver\Exception\Exception $e) {
+        ?>
+          <ul class="error">
+            <li>Exception: <?= $e->getMessage() ?></li>
+            <li>In file: <?= $e->getFile() ?></li>
+            <li>On line: <?= $e->getLine() ?></li>
+          </ul>
+          <p class="error">You may want to wait 10 seconds or so for the database to start and try again.</p>
+        <?php
+      }
+    ?>
+
+    <table>
+      <caption>Planets in the Solar System</caption>
+      <thead>
+        <tr>
+          <th id="name">Name</th>
+          <th id="radius">Radius<br/>(km)</th>
+          <th id="year">Year<br/>(Earth days)</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <?php foreach ($docs as $planet) { ?>
+          <tr><td><?= $planet->name ?></td><td><?= $planet->radius ?></td><td><?= $planet->year ?></td></tr>
+        <?php } ?>
+      </tbody>
+    </table>
+
+  </body>
+</html>
