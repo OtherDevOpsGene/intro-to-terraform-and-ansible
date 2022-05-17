@@ -77,24 +77,6 @@ resource "aws_instance" "mongodb" {
   }
 }
 
-resource "aws_lb" "webserver_alb" {
-  #checkov:skip=CKV2_AWS_28:No WAF since it is a demo- not good for production
-  name_prefix                = "planet"
-  internal                   = false
-  load_balancer_type         = "application"
-  security_groups            = [aws_security_group.alb_sg.id]
-  subnets                    = [for subnet in aws_subnet.public_subnet : subnet.id]
-  drop_invalid_header_fields = true
-
-  access_logs {
-    bucket  = aws_s3_bucket.alb_logs.bucket
-    enabled = true
-  }
-
-  #checkov:skip=CKV_AWS_150:Allow deletion since it is a demo- not good for production
-  enable_deletion_protection = false
-}
-
 resource "null_resource" "ansible" {
   provisioner "local-exec" {
     command = "ANSIBLE_HOST_KEY_CHECKING=False ansible localhost -m ping"

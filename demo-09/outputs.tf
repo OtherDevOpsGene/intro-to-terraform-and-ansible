@@ -1,6 +1,11 @@
 output "webserver_public_ips" {
-  description = "Public IP addresses of the webservers"
+  description = "Public IP addresses of the NGINX webservers"
   value       = aws_instance.webserver[*].public_ip
+}
+
+output "mongodb_public_ip" {
+  description = "Public IP address of the MongoDB database"
+  value       = aws_instance.mongodb.public_ip
 }
 
 output "alb_dns" {
