@@ -19,18 +19,7 @@ variable "owner_email" {
   }
 }
 
-variable "project_tag" {
-  description = "Project name to tag resources with for grouping"
-  type        = string
-  default     = "IntroToTerraformAndAnsible"
-}
-
 variable "key_name" {
   description = "Name of an already-installed AWS keypair"
-  type        = string
-}
-
-variable "private_key_file" {
-  description = "Path to the private key of the already-installed AWS keypair"
   type        = string
 }

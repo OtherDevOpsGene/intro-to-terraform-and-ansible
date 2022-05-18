@@ -5,8 +5,8 @@ resource "aws_security_group" "alb_sg" {
 
   tags = {
     Name    = "alb_sg"
+    Project = "planets"
     Owner   = var.owner_email
-    Project = var.project_tag
   }
 }
 
@@ -66,8 +66,8 @@ resource "aws_lb" "webserver_alb" {
 
   tags = {
     Name    = "planet-alb"
+    Project = "planets"
     Owner   = var.owner_email
-    Project = var.project_tag
   }
 }
 

@@ -27,8 +27,8 @@ resource "aws_vpc" "sandbox_vpc" {
 
   tags = {
     Name    = "sandbox_vpc"
+    Project = "planets"
     Owner   = var.owner_email
-    Project = var.project_tag
   }
 }
 
@@ -41,8 +41,8 @@ resource "aws_internet_gateway" "sandbox_gateway" {
 
   tags = {
     Name    = "sandbox_gw"
+    Project = "planets"
     Owner   = var.owner_email
-    Project = var.project_tag
   }
 }
 
@@ -54,8 +54,8 @@ resource "aws_subnet" "public_subnet" {
 
   tags = {
     Name    = "sandbox_public"
+    Project = "planets"
     Owner   = var.owner_email
-    Project = var.project_tag
   }
 }
 
@@ -69,8 +69,8 @@ resource "aws_route_table" "rtb_public" {
 
   tags = {
     Name    = "sandbox_public"
+    Project = "planets"
     Owner   = var.owner_email
-    Project = var.project_tag
   }
 }
 
@@ -98,8 +98,8 @@ resource "aws_security_group" "webserver_sg" {
 
   tags = {
     Name    = "webserver_sg"
+    Project = "planets"
     Owner   = var.owner_email
-    Project = var.project_tag
   }
 }
 
@@ -151,8 +151,8 @@ resource "aws_security_group" "mongodb_sg" {
 
   tags = {
     Name    = "mongodb_sg"
+    Project = "planets"
     Owner   = var.owner_email
-    Project = var.project_tag
   }
 }
 

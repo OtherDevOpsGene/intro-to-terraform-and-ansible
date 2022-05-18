@@ -42,9 +42,11 @@ resource "aws_instance" "webserver" {
   }
 
   tags = {
-    Name    = "planet-webserver-${count.index}"
-    Owner   = var.owner_email
-    Project = var.project_tag
+    Name        = "planet-webserver-${count.index}"
+    Project     = "planets"
+    Environment = "demo"
+    Role        = "webservers"
+    Owner       = var.owner_email
   }
 }
 
@@ -71,14 +73,20 @@ resource "aws_instance" "mongodb" {
   }
 
   tags = {
-    Name    = "planet-mongodb"
-    Owner   = var.owner_email
-    Project = var.project_tag
+    Name        = "planet-mongodb"
+    Project     = "planets"
+    Environment = "demo"
+    Role        = "database"
+    Owner       = var.owner_email
   }
 }
 
 resource "null_resource" "ansible" {
   provisioner "local-exec" {
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible localhost -m ping"
+    command = "ANSIBLE_CONFIG=./ansible.cfg ansible-playbook site.yml"
+  }
+
+  triggers = {
+    always_run = timestamp()
   }
 }
