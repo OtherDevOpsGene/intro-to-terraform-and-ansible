@@ -83,7 +83,7 @@ resource "aws_instance" "mongodb" {
 
 resource "null_resource" "ansible" {
   provisioner "local-exec" {
-    command = "ANSIBLE_CONFIG=./ansible.cfg ansible-playbook site.yml"
+    command = "ANSIBLE_HOST_KEY_CHECKING=false ansible-playbook --inventory inventory-aws_ec2.yml --user ubuntu site.yml"
   }
 
   triggers = {
