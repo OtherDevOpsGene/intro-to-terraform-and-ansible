@@ -80,4 +80,4 @@ $ terraform destroy
 
 ## End of Lesson 08
 
-This is the final lesson, *at least for now*.
+Now we just need to [demonstrate it all working together](demo-09/README.md).

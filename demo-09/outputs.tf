@@ -3,14 +3,9 @@ output "webserver_public_ips" {
   value       = aws_instance.webserver[*].public_ip
 }
 
-output "mongodb_public_ip" {
-  description = "Public IP address of the MongoDB database"
-  value       = aws_instance.mongodb.public_ip
-}
-
-output "alb_dns" {
-  description = "DNS name of the load balancer"
-  value       = aws_lb.webserver_alb.dns_name
+output "webserver_private_ips" {
+  description = "Private IP addresses of the NGINX webservers"
+  value       = aws_instance.webserver[*].private_ip
 }
 
 output "planets_url" {

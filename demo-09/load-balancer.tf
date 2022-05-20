@@ -77,10 +77,6 @@ resource "aws_lb_target_group" "webservers" {
   protocol = "HTTP"
   vpc_id   = aws_vpc.sandbox_vpc.id
 
-  stickiness {
-    type = "lb_cookie"
-  }
-
   health_check {
     path = "/"
     port = 80

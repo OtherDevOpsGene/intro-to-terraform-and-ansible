@@ -29,7 +29,7 @@ resource "aws_instance" "webserver" {
   monitoring             = true
   ebs_optimized          = true
 
-  #checkov:skip=CKV_AWS_88:Allowing public access
+  #checkov:skip=CKV_AWS_88:Allowing public access for Ansible
   associate_public_ip_address = true
 
   metadata_options {
@@ -60,7 +60,7 @@ resource "aws_instance" "mongodb" {
   monitoring             = true
   ebs_optimized          = true
 
-  #checkov:skip=CKV_AWS_88:Allowing public access
+  #checkov:skip=CKV_AWS_88:Allowing public access for Ansible
   associate_public_ip_address = true
 
   metadata_options {
