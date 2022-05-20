@@ -2,13 +2,13 @@
 
 We have used Terraform to stand up a typical collection of systems and Ansible
 to configure them. What we haven't done is tied those two together into a single
-step.
+step. Because showing this has some additional requirements and
+permissions, I am going to run this as a demonstration from my laptop.
 
-To make our system more realistic, we'll put a load balancer in place in front
-of the webservers. Other than that, we'll just repeat the
+To make our system more realistic, I'll put a load balancer in place in front
+of the webservers. Other than that, I'll just repeat the
 [previous lesson](../lesson-08/README.md), but add in the pieces to run
-Terraform and Ansible together. Because it has some additional requirements and
-permissions, I run this as a demonstration from my laptop.
+Terraform and Ansible together. 
 
 ## Preparing my laptop
 
@@ -265,6 +265,11 @@ resource "null_resource" "ansible" {
   triggers = {
     always_run = timestamp()
   }
+
+  depends_on = [
+    aws_instance.webserver,
+    aws_instance.mongodb
+  ]
 }
 ```
 
@@ -281,9 +286,15 @@ of the resources and/or playbooks changed. Plus, if someone or something makes
 a change on one of the systems, Ansible will figure out that it needs to reapply
 the configuration.
 
-The Ansible command line is a little more involved than we used before, but it
-is really just putting the options from the `ansible.cfg` directly into the
-command. 
+The `depends_on` argument tells Terraform that I need those resources built
+before this resource is applied. Most of the time Terraform figures that out on
+its own, but with the `null_resource` we need to explicitly spell it out.
+Ansible needs the webserver and database EC2 instances, so I'll call them out
+as dependencies.
+
+The Ansible command line looks a little more involved than we used before, but
+it is really just putting the options from the `ansible.cfg` directly into the
+command. That way I don't have to rely on a local configuration file.
 
 The last change is the [site.yml](site.yml) playbook.
 
