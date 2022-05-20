@@ -89,4 +89,9 @@ resource "null_resource" "ansible" {
   triggers = {
     always_run = timestamp()
   }
+
+  depends_on = [
+    aws_instance.webserver,
+    aws_instance.mongodb
+  ]
 }
