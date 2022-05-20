@@ -20,6 +20,10 @@ to configure systems and deploy applications.
 * [Lesson-07](lesson-07/README.md) - Practical Ansible
 * [Lesson-08](lesson-08/README.md) - Full web application
 
+### Demo
+
+* [Demo-09](demo-09/README.md) - Putting it all together
+
 ## Reference documentation
 
 * [Terraform AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)

@@ -1,0 +1,34 @@
+---
+- hosts: database
+  become: true
+  collections:
+    - community.mongodb
+
+  roles:
+    - {role: mongodb_linux, ntp_package: chrony, ntp_service: chronyd}
+    - {role: mongodb_repository, mongodb_version: "5.0"}
+    - mongodb_install
+    - {role: mongodb_mongod, bind_ip: "localhost,{{ ansible_default_ipv4.address }}", authorization: disabled, replicaset: false}
+
+  tasks:
+    - name: Install pip
+      package:
+        name: python3-pip
+        state: present
+
+    - name: Install pymongo for the mongo tasks
+      pip:
+        name: pymongo
+
+    - name: Copy initial data to database system
+      copy:
+        src: ./mongodb-data.js
+        dest: /tmp/mongodb-data.js
+        owner: root
+        group: root
+        mode: 0640
+
+    - name: Load initial data into the database
+      mongodb_shell:
+        file: /tmp/mongodb-data.js
+        idempotent: yes

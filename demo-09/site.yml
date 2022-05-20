@@ -1,0 +1,10 @@
+---
+- hosts: all
+  gather_facts: false
+
+  tasks:
+  - name: Wait 600 seconds for targets to become reachable/usable
+    ansible.builtin.wait_for_connection:
+
+- import_playbook: nginx-playbook.yml
+- import_playbook: mongodb-playbook.yml

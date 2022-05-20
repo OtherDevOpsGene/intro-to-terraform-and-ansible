@@ -40,6 +40,11 @@ db.planets.insertMany(
       "name": "Neptune",
       "radius": 24622,
       "year": 60188
+    },
+    {
+      "name": "Pluto",
+      "radius": 1188,
+      "year": 90700
     }
   ]
 );
