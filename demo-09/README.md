@@ -10,6 +10,11 @@ of the webservers. Other than that, I'll just repeat the
 [previous lesson](../lesson-08/README.md), but add in the pieces to run
 Terraform and Ansible together. 
 
+I have prepared a video of these steps to accompany the descriptions below
+if you want to see them in action.
+
+* [demo-09 video](https://youtu.be/S4MeMONH5Cw)
+
 ## Preparing my laptop
 
 I've [installed Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
