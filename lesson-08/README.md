@@ -80,4 +80,4 @@ $ terraform destroy
 
 ## End of Lesson 08
 
-Now we just need to [demonstrate it all working together](demo-09/README.md).
+Now we just need to [demonstrate it all working together](../demo-09/README.md).
