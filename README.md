@@ -46,7 +46,7 @@ on your laptop and make sure it is on your path.
 
 ```console
 $ terraform --version
-Terraform v1.1.9
+Terraform v1.4.6
 on linux_amd64
 ```
 
@@ -59,7 +59,7 @@ Other OSes likely have the client already installed.
 
 ```console
 $ ssh -V
-OpenSSH_8.9p1, OpenSSL 1.1.1n  15 Mar 2022
+OpenSSH_8.2p1 Ubuntu-4ubuntu0.7, OpenSSL 1.1.1f  31 Mar 2020
 ```
 
 ### AWS account with adequate permissions
@@ -88,15 +88,15 @@ Ensure the configuration is in place and you can access AWS via the CLI.
 
 ```console
 $ aws configure
-AWS Access Key ID [****************5X4R]:
-AWS Secret Access Key [****************ojQ8]:
+AWS Access Key ID [****************5W7F]:
+AWS Secret Access Key [****************G9m9]:
 Default region name [us-east-2]:
 Default output format [json]:
 $ aws sts get-caller-identity
 {
-    "UserId": "AIDAQZROKXPRRMDCYPJNQ",
-    "Account": "054858005475",
-    "Arn": "arn:aws:iam::054858005475:user/gene.gotimer-terraform"
+    "UserId": "AIDA6J6IBOTSMECN2JXTM",
+    "Account": "983430165732",
+    "Arn": "arn:aws:iam::983430165732:user/gene.gotimer-terraform"
 }
 ```
 
@@ -111,10 +111,12 @@ $ aws ec2 describe-key-pairs
 {
     "KeyPairs": [
         {
-            "KeyPairId": "key-0a0b1b7ec358fca13",
-            "KeyFingerprint": "41:ae:37:68:64:18:24:4b:be:46:77:93:d8:b0:51:07:90:d1:29:8b",
+            "KeyPairId": "key-0343183b6656b1f95",
+            "KeyFingerprint": "c9:26:37:46:e7:43:a4:c5:e4:61:a0:d8:ac:7b:54:f0:3b:9f:8d:99",
             "KeyName": "gene-test-us-east-2",
-            "Tags": []
+            "KeyType": "rsa",
+            "Tags": [],
+            "CreateTime": "2023-03-08T20:34:04.339000+00:00"
         }
     ]
 }
