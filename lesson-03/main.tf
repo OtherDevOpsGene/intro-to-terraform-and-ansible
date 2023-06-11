@@ -43,7 +43,7 @@ resource "aws_instance" "webserver" {
 resource "aws_eip" "webserver_eip" {
   count    = length(aws_instance.webserver)
   instance = element(aws_instance.webserver[*].id, count.index)
-  vpc      = true
+  domain   = "vpc"
 
   tags = {
     Name  = "webserver-${count.index}"

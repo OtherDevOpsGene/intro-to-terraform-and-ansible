@@ -1,9 +1,10 @@
 ---
-- hosts: database
-  name: Gather facts from database group
-  tasks: [ ]
+- name: Gather facts from database group
+  hosts: database
+  tasks: []
 
-- hosts: webservers
+- name: Build a PHP web site
+  hosts: webserver
   become: true
 
   vars:
@@ -33,17 +34,17 @@
 
   tasks:
     - name: Install a custom home page
-      template:
+      ansible.builtin.template:
         src: index.php.j2
         dest: /var/www/html/index.php
         owner: www-data
         group: www-data
-        mode: 0644
+        mode: "0644"
 
     - name: Copy the style file
-      copy:
+      ansible.builtin.copy:
         src: planets.css
         dest: /var/www/html/planets.css
         owner: www-data
         group: www-data
-        mode: 0644
+        mode: "0644"

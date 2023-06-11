@@ -1,34 +1,50 @@
 ---
-- hosts: database
+- name: Install, configure, and populate mongodb
+  hosts: database
   become: true
-  collections:
-    - community.mongodb
 
   roles:
-    - {role: mongodb_linux, ntp_package: chrony, ntp_service: chronyd}
-    - {role: mongodb_repository, mongodb_version: "5.0"}
-    - mongodb_install
-    - {role: mongodb_mongod, bind_ip: "localhost,{{ ansible_default_ipv4.address }}", authorization: disabled, replicaset: false}
+    - {role: community.mongodb.mongodb_linux, ntp_package: chrony, ntp_service: chronyd}
+    - {role: community.mongodb.mongodb_repository, mongodb_version: "5.0"}
+    - community.mongodb.mongodb_install
+    - {role: community.mongodb.mongodb_mongod, bind_ip: "localhost,{{ ansible_default_ipv4.address }}", authorization: enabled, replicaset: false}
 
   tasks:
     - name: Install pip
-      package:
+      ansible.builtin.package:
         name: python3-pip
         state: present
 
     - name: Install pymongo for the mongo tasks
-      pip:
+      ansible.builtin.pip:
         name: pymongo
 
+    - name: Copy admin user script to database system
+      ansible.builtin.copy:
+        src: ./mongodb-admin.js
+        dest: /tmp/mongodb-admin.js
+        owner: root
+        group: root
+        mode: "0640"
+
+    - name: Create admin user in the database
+      community.mongodb.mongodb_shell:
+        db: admin
+        file: /tmp/mongodb-admin.js
+        idempotent: true
+
     - name: Copy initial data to database system
-      copy:
+      ansible.builtin.copy:
         src: ./mongodb-data.js
         dest: /tmp/mongodb-data.js
         owner: root
         group: root
-        mode: 0640
+        mode: "0640"
 
     - name: Load initial data into the database
-      mongodb_shell:
+      community.mongodb.mongodb_shell:
+        db: test
+        login_user: iauAdmin
+        login_password: doNotDoThisInARealSystem
         file: /tmp/mongodb-data.js
-        idempotent: yes
+        idempotent: true

@@ -1,10 +1,14 @@
 ---
 - hosts: all
   gather_facts: false
+  become: true
 
   tasks:
   - name: Wait 600 seconds for targets to become reachable/usable
     ansible.builtin.wait_for_connection:
+  - name: Update repositories caches
+    ansible.builtin.apt:
+      update_cache: yes
 
 - import_playbook: nginx-playbook.yml
 - import_playbook: mongodb-playbook.yml

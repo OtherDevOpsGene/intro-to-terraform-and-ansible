@@ -1,28 +1,29 @@
 ---
-- hosts: targets
+- name: Cows telling fortunes
+  hosts: targets
 
   tasks:
-  - name: Install the fortune package
-    apt:
-      name: fortune
-      state: present
-      update_cache: true
-    become: true
+    - name: Install the fortune package
+      ansible.builtin.apt:
+        name: fortune
+        state: present
+        update_cache: true
+      become: true
 
-  - name: Run fortune
-    command: fortune
-    register: fortune_out
+    - name: Run fortune
+      ansible.builtin.command: fortune
+      register: fortune_out
 
-  - name: Install the cowsay package
-    apt:
-      name: cowsay
-      state: present
-    become: true
+    - name: Install the cowsay package
+      ansible.builtin.apt:
+        name: cowsay
+        state: present
+      become: true
 
-  - name: Run cowsay
-    command: "cowsay \"{{ ansible_hostname }}: {{ fortune_out.stdout }}\""
-    register: cowsay_out
+    - name: Run cowsay
+      ansible.builtin.command: "cowsay \"{{ ansible_hostname }}: {{ fortune_out.stdout }}\""
+      register: cowsay_out
 
-  - name: Display cowsay results
-    debug:
-      var: cowsay_out.stdout_lines
+    - name: Display cowsay results
+      ansible.builtin.debug:
+        var: cowsay_out.stdout_lines

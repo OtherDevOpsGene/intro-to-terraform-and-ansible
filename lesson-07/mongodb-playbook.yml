@@ -1,11 +1,10 @@
 ---
-- hosts: database
+- name: Install and configure mongodb
+  hosts: database
   become: true
-  collections:
-    - community.mongodb
 
   roles:
-    - mongodb_linux
-    - {role: mongodb_repository, mongodb_version: "5.0"}
-    - mongodb_install
-    - {role: mongodb_mongod, bind_ip: "localhost,{{ ansible_default_ipv4.address }}", replicaset: false}
+    - {role: community.mongodb.mongodb_linux, ntp_package: chrony, ntp_service: chronyd}
+    - {role: community.mongodb.mongodb_repository, mongodb_version: "5.0"}
+    - community.mongodb.mongodb_install
+    - {role: community.mongodb.mongodb_mongod, bind_ip: "localhost,{{ ansible_default_ipv4.address }}", authorization: disabled, replicaset: false}

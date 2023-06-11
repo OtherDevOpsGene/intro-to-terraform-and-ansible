@@ -6,12 +6,13 @@ step. Because showing this has some additional requirements and
 permissions, I am going to run this as a demonstration from my laptop.
 
 To make our system more realistic, I'll put a load balancer in place in front
-of the webservers. Other than that, I'll just repeat the
+of the web servers. Other than that, I'll just repeat the
 [previous lesson](../lesson-08/README.md), but add in the pieces to run
 Terraform and Ansible together. 
 
-I have prepared a video of these steps to accompany the descriptions below
-if you want to see them in action.
+I have prepared a video of these steps to accompany the descriptions below if
+you want to see them in action. It may not match exactly if I have updated this
+demonstration.
 
 * [demo-09 video](https://youtu.be/S4MeMONH5Cw)
 
@@ -28,13 +29,18 @@ well, since they were only on our control node before.
 ```console
 $ ansible-galaxy install geerlingguy.nginx
 ...
-- geerlingguy.nginx (3.1.0) was installed successfully
+- geerlingguy.nginx (3.1.4) was installed successfully
+
 $ ansible-galaxy install geerlingguy.php
 ...
-- geerlingguy.php (4.7.0) was installed successfully
+- geerlingguy.php (5.0.0) was installed successfully
+
 $ ansible-galaxy collection install community.mongodb
-...
-community.general:4.2.0 was installed successfully
+Process install dependency map
+Starting collection install process
+Installing 'community.mongodb:1.6.0' to '/home/ggotimer/.ansible/collections/ansible_collections/community/mongodb'
+Installing 'ansible.posix:1.5.4' to '/home/ggotimer/.ansible/collections/ansible_collections/ansible/posix'
+Installing 'community.general:7.0.1' to '/home/ggotimer/.ansible/collections/ansible_collections/community/general'
 ```
 
 Since Ansible will need to `ssh` from the local system to the systems in AWS,
@@ -43,8 +49,12 @@ I'll configure the SSH key I was using on the control node to be my default key.
 ```console
 $ eval $(ssh-agent)
 Agent pid 7953
-$ ssh-add gene-test-us-east-2.pem
-Identity added: gene-test-us-east-2.pem (gene-test-us-east-2.pem)
+
+$ ssh-add /home/ggotimer/.ssh/gene-test-us-east-2.pem
+Identity added: /home/ggotimer/.ssh/gene-test-us-east-2.pem (/home/ggotimer/.ssh/gene-test-us-east-2.pem)
+
+$ ssh-add -l
+2048 SHA256:BdmxwBiUP11ZL1X1Qw6M3st8k7nWVGWkNCIpj3vhkmc /home/ggotimer/.ssh/gene-test-us-east-2.pem (RSA)
 ```
 
 Terraform was always running locally, so there isn't anything extra to prepare
@@ -56,6 +66,9 @@ This demonstration will take about 10 minutes to complete, so I'll kick it off
 first and then describe the important changes.
 
 ```console
+$ terraform init
+...
+
 $ terraform apply
 ...
 Do you want to perform these actions?
@@ -78,20 +91,20 @@ There are a few changes in this lesson that should be explained.
 ### SSH access from laptop
 
 In [Lesson 04](../lesson-04/README.md), we set up SSH access from the internet
-to the control node for us and then from the control node to the target webservers
+to the control node for us and then from the control node to the target web servers
 and database for Ansible. If I am running Ansible from my laptop, I'll need to
 open SSH access to all the target systems.
 
 Opening SSH from the internet in general to these systems is more open than I am
 comfortable with. So in [network.tf](network.tf), I use the `http` provisioner
-in Terraform to get my current public IP address from <https://ifconfig.co/>.
+in Terraform to get my current public IP address from <https://ifconfig.me/>.
 When I set up the security groups for SSH, each only allows access from my
 current address. And if I move to a new IP address I can just `terraform apply`
 again to modify the security group to allow access only from my new address.
 
 ### Load balancer
 
-We set up two webservers in the previous Ansible lessons. There isn't much real
+We set up two web servers in the previous Ansible lessons. There isn't much real
 world value in that unless we had a load balancer in front of them to distribute
 the load between them.
 
@@ -107,7 +120,7 @@ The example code in [load-balancer.tf](load-balancer.tf) takes some significant
 shortcuts, but it is a good starting point. The HTTP listeners should redirect
 to HTTPS and host all traffic there. There should be a web application firewall
 (WAF) protecting the ALB from attack. The ALB is available in multiple
-availability zones (AZs), but there should be webservers and databases in those
+availability zones (AZs), but there should be web servers and databases in those
 AZs as well for true resiliency. The ALB should have logging and deletion
 protection turned on.
 
@@ -150,21 +163,21 @@ Our old inventory looked like:
 [targets]
 10.8.0.10
 10.8.0.41
-10.8.0.206
+10.8.0.178
 
 [all:children]
 workstation
 targets
 
-[webservers]
+[webserver]
 10.8.0.41
-10.8.0.206
+10.8.0.178
 
 [database]
 10.8.0.10
 ```
 
-Particularly important to Ansible were the `webservers` and `database` groups.
+Particularly important to Ansible were the `webserver` and `database` groups.
 For each of the playbooks we used, `nginx-playbook.yml` and `mongodb-playbook.yml`,
 we ran them against our entire system and let the playbook pattern (i.e., the `hosts`
 line) determine what systems to target.
@@ -204,15 +217,15 @@ regions:
 hostnames:
   - ip-address
 
-include_filters:
-  - tag:Project:
-      - 'planets'
-  - tag:Environment:
-      - 'demo'
+filters:
+  tag:Project: planets
+  tag:Environment: demo
 
-leading_separator: false
 keyed_groups:
   - key: tags.Role
+    separator: ''
+  - key: tags.Environment
+    prefix: env
 ```
 
 Since I am using this from my laptop, the IP addresses will be the public addresses
@@ -230,8 +243,12 @@ $ ansible-inventory -i inventory-aws_ec2.yml --graph
   |  |--3.145.43.100
   |--@database:
   |  |--3.145.43.100
+  |--@env_demo:
+  |  |--18.220.32.12
+  |  |--18.221.23.189
+  |  |--3.145.43.100
   |--@ungrouped:
-  |--@webservers:
+  |--@webserver:
   |  |--18.220.32.12
   |  |--18.221.23.189
 ```
@@ -239,18 +256,20 @@ $ ansible-inventory -i inventory-aws_ec2.yml --graph
 The `@` symbols are just part of the graph representation, not part of the group
 names.
 
-For my use, this generates the same group names (`database` and `webservers`) as
-we used in the previous lesson. As such I can use the playbooks exactly as is.
+For my use, this generates the same group names (`database` and `webserver`) as
+we used in the previous lesson. As such I can use the playbooks exactly as they
+were.
 
-The [aws_ec2 inventory](https://docs.ansible.com/ansible/latest/collections/amazon/aws/aws_ec2_inventory.html)
-plugin has many options and can generate a hierarchy of nested groups if we
-wanted (e.g., `dev:webservers`, `demo:webservers`, `prod:webservers` if we keyed
-by `Environment` and `Role`). Also, the 
-[playbook patterns](https://docs.ansible.com/ansible/latest/user_guide/intro_patterns.html#common-patterns)
+The [aws_ec2
+inventory](https://docs.ansible.com/ansible/latest/collections/amazon/aws/aws_ec2_inventory.html)
+plugin has many options. Also, the [playbook
+patterns](https://docs.ansible.com/ansible/latest/user_guide/intro_patterns.html#common-patterns)
 can be more than just a single group. With a well-planned tagging strategy, a
 single inventory plugin configuration could take care of your entire AWS
 ecosystem, making it easy to target the right servers for any project in any
-environment.
+environment. For exmaple, `env_demo:&webserver` for web servers in the `demo`
+environment. Or `database:!env_prod` for databases not in the `prod` enviroment,
+if we had such an environment and had not filtered it out.
 
 ### local-exec
 
@@ -307,10 +326,14 @@ The last change is the [site.yml](site.yml) playbook.
 ---
 - hosts: all
   gather_facts: false
+  become: true
 
   tasks:
   - name: Wait 600 seconds for targets to become reachable/usable
     ansible.builtin.wait_for_connection:
+  - name: Update repositories caches
+    ansible.builtin.apt:
+      update_cache: yes
 
 - import_playbook: nginx-playbook.yml
 - import_playbook: mongodb-playbook.yml
@@ -321,12 +344,14 @@ place. But before it invokes them, it waits until the target systems are respond
 until it kicks them off. That way the Ansible commands don't start running until
 the system is ready. Internally, `wait_for_connection` relies on the 
 `ping` module we used earlier. By default, it will wait for up to 10 minutes
-(600 seconds) until it times out.
+(600 seconds) until it times out. This playbook also forces an update to the
+package repository cache on each system, to make sure the following playbooks
+can find any packages they need.
 
 ## Results
 
 The result of my single `terraform apply` is that all three systems plus a
-load balancer was stood up and Ansible configured the webservers and the
+load balancer was stood up and Ansible configured the web servers and the
 database.
 
 ```console
@@ -353,7 +378,7 @@ as before, with the addition of Pluto just so I can see a difference.
 </kbd>
 
 If I hit this URL from multiple locations, we could see the private IP address
-for the webserver change between the two webservers, thanks to the load balancer.
+for the webserver change between the two web servers, thanks to the load balancer.
 
 ## Shortcuts taken
 
@@ -431,18 +456,18 @@ This is the final lesson, *at least for now*.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1.2 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.13.0 |
-| <a name="requirement_http"></a> [http](#requirement\_http) | ~> 2.1.0 |
-| <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.1.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.2.0 |
+| <a name="requirement_http"></a> [http](#requirement\_http) | ~> 3.3.0 |
+| <a name="requirement_null"></a> [null](#requirement\_null) | ~> 3.2.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.13.0 |
-| <a name="provider_http"></a> [http](#provider\_http) | 2.1.0 |
-| <a name="provider_null"></a> [null](#provider\_null) | 3.1.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 5.2.0 |
+| <a name="provider_http"></a> [http](#provider\_http) | ~> 3.3.0 |
+| <a name="provider_null"></a> [null](#provider\_null) | ~> 3.2.1 |
 
 ## Modules
 
@@ -479,7 +504,7 @@ No modules.
 | [aws_subnet.public_subnet](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
 | [aws_vpc.sandbox_vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc) | resource |
 | [null_resource.ansible](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
-| [aws_ami.ubuntu_linux](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
+| [aws_ami.ubuntu_focal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
 | [aws_availability_zone.all](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/availability_zone) | data source |
 | [aws_availability_zones.available](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/availability_zones) | data source |
 | [http_http.ifconfig_co_ip](https://registry.terraform.io/providers/hashicorp/http/latest/docs/data-sources/http) | data source |

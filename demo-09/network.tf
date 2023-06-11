@@ -80,15 +80,15 @@ resource "aws_route_table_association" "rta_subnet_public" {
   route_table_id = aws_route_table.rtb_public.id
 }
 
-data "http" "ifconfig_co_ip" {
-  url = "https://ifconfig.co/"
+data "http" "ifconfig_me_ip" {
+  url = "https://ifconfig.me/"
   request_headers = {
     Accept = "text/*"
   }
 }
 
 locals {
-  current_ip = chomp(data.http.ifconfig_co_ip.body)
+  current_ip = chomp(data.http.ifconfig_me_ip.response_body)
 }
 
 resource "aws_security_group" "webserver_sg" {

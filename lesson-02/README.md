@@ -13,7 +13,7 @@ resource "aws_instance" "app_server" {
   instance_type = "t2.micro"
 
   tags = {
-    Name = "tf-lesson-02"
+    Name = "app-server"
   }
 }
 ```
@@ -23,6 +23,7 @@ Then initialize and apply.
 ```console
 $ terraform init
 ...
+
 $ terraform apply
 
 Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
@@ -107,9 +108,9 @@ Terraform will perform the following actions:
       ~ tags_all                             = {
           ~ "Name" = "app-server" -> "tf-lesson-02"
         }
-        # (27 unchanged attributes hidden)
+        # (30 unchanged attributes hidden)
 
-        # (5 unchanged blocks hidden)
+        # (8 unchanged blocks hidden)
     }
 
 Plan: 0 to add, 1 to change, 0 to destroy.
@@ -147,9 +148,9 @@ Terraform will perform the following actions:
       ~ tags_all                             = {
           ~ "Name" = "tf-lesson-02" -> "app-server"
         }
-        # (27 unchanged attributes hidden)
+        # (30 unchanged attributes hidden)
 
-        # (5 unchanged blocks hidden)
+        # (8 unchanged blocks hidden)
     }
 
 Plan: 0 to add, 1 to change, 0 to destroy.
@@ -183,7 +184,8 @@ output "app_server_public_ip" {
 }
 ```
 
-Even without make other changes, this will change the state.
+Even without making other changes, this will change the state. Notice that no
+resources were changed, though.
 
 ```console
 $ terraform apply
@@ -241,7 +243,7 @@ resource "aws_instance" "app_server" {
 ```
 
 ```console
-terraform apply
+$ terraform apply
 aws_instance.app_server[0]: Refreshing state... [id=i-01d1efdc6bd9ae04d]
 ...
 
@@ -338,7 +340,8 @@ $ terraform apply
 aws_instance.app_server[1]: Refreshing state... [id=i-013547aa4d86f252e]
 aws_instance.app_server[0]: Refreshing state... [id=i-01d1efdc6bd9ae04d]
 
-Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with 
+the following symbols:
 -/+ destroy and then create replacement
 
 Terraform will perform the following actions:
@@ -348,12 +351,22 @@ Terraform will perform the following actions:
       ~ ami                                  = "ami-0629230e074c580f2" -> "ami-0fb653ca2d3203ac1" # forces replacement
 ...
 Plan: 2 to add, 0 to change, 2 to destroy.
+
+...
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: no
 ```
+
+We can see what we need without waiting for a build, so answer `no`. 
 
 Because the AMI changes, the images need to be recreated.
 
-Notice the `destroy then create replacement`, which would mean that we would have
-downtime if we were to keep replacing the AMI to stay current.
+Notice the `destroy then create replacement` near the beginning, which would
+mean that we would have downtime if we were to keep replacing the AMI to stay
+current.
 
 We can change the lifecycle to make sure it stands up the new instances and then
 destroys the old so that we don't have unavailability (at the cost of having more
@@ -391,6 +404,13 @@ Terraform will perform the following actions:
       ~ ami                                  = "ami-0629230e074c580f2" -> "ami-0fb653ca2d3203ac1" # forces replacement
 ...
 Plan: 2 to add, 0 to change, 2 to destroy.
+
+...
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
 ```
 
 ## Clean up

@@ -118,6 +118,7 @@ resource "aws_security_group_rule" "target_sg_allow_workstation_mongodb" {
 }
 
 resource "aws_security_group_rule" "target_sg_allow_public_http" {
+  #checkov:skip=CKV_AWS_260:Allowing public access to HTTP
   security_group_id = aws_security_group.target_sg.id
   type              = "ingress"
   description       = "Public HTTP"

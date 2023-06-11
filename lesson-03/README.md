@@ -12,8 +12,10 @@ what Terraform will be doing without doing it.
 ```console
 $ ls -A
 .gitignore  README.md  main.tf  network.tf  outputs.tf  providers.tf  variables.tf
+
 $ terraform init
 ...
+
 $ terraform plan
 var.aws_region
   AWS region to build in
@@ -28,15 +30,17 @@ var.key_name
 var.owner_email
   Email address to tag resources with
 
-  Enter a value: eugene.gotimer@steampunk.com
+  Enter a value: otherdevopsgene@portinfo.com
 
 
-Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with 
+the following symbols:
   + create
 
 Terraform will perform the following actions:
 ...
-Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions 
+if you run "terraform apply" now.
 ```
 
 Variables specified like this will need to be set each time, making it manual
@@ -49,7 +53,7 @@ We can put those values in a `terraform.tfvars` file or any filename ending in
 Create `terraform.tfvars`:
 
 ```terraform
-owner_email = "eugene.gotimer@steampunk.com"
+owner_email = "otherdevopsgene@portinfo.com"
 key_name = "gene-test-us-east-2"
 ```
 
@@ -65,12 +69,14 @@ This time we aren't asked for the variable values.
 ```console
 $ terraform plan
 
-Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with 
+the following symbols:
   + create
 
 Terraform will perform the following actions:
 ...
-Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions 
+if you run "terraform apply" now.
 ```
 
 The note points out that the settings it is showing were only at the time
@@ -81,7 +87,8 @@ environment variable could be changed. We can save that plan and pass it to
 ```console
 $ terraform plan -out=lesson-03.tfplan
 
-Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with 
+the following symbols:
   + create
 
 Terraform will perform the following actions:
@@ -90,9 +97,10 @@ Saved the plan to: lesson-03.tfplan
 
 To perform exactly these actions, run the following command to apply:
     terraform apply "lesson-03.tfplan"
+
 $ terraform apply "lesson-03.tfplan"
 ...
-Apply complete! Resources: 14 added, 0 changed, 0 destroyed.
+Apply complete! Resources: 11 added, 0 changed, 0 destroyed.
 
 Outputs:
 ...
@@ -151,24 +159,31 @@ Created and switched to workspace "dev"!
 You're now on a new, empty workspace. Workspaces isolate their state,
 so if you run "terraform plan" Terraform will not see any existing state
 for this configuration.
-$ terraform workspace select dev
+
+$ terraform workspace select dev   # Redundant
+
 $ terraform apply -var-file=dev.tfvars
 
-Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with 
+the following symbols:
   + create
 
 Terraform will perform the following actions:
 ...
+
 $ terraform workspace new prod
 Created and switched to workspace "prod"!
 
 You're now on a new, empty workspace. Workspaces isolate their state,
 so if you run "terraform plan" Terraform will not see any existing state
 for this configuration.
-$ terraform workspace select prod
+
+$ terraform workspace select prod   # Also redundant
+
 $ terraform apply -var-file=prod.tfvars
 
-Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with 
+the following symbols:
   + create
 
 Terraform will perform the following actions:
@@ -181,20 +196,16 @@ As we've seen, Terraform will not make any changes that it doesn't need to. If a
 resource is already correctly configured, it doesn't recreate it or make any changes.
 
 ```console
-$ terraform apply -var-file=prod.tfvars
+$ terraform workspace select dev   # Let's play in dev
+Switched to workspace "dev".
+
+$ terraform apply -var-file=dev.tfvars
 ...
+
 No changes. Your infrastructure matches the configuration.
 
-Your configuration already matches the changes detected above. If you'd like to update the Terraform state to match, create and apply a refresh-only plan:
-  terraform apply -refresh-only
-
-Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
-...
-$ terraform apply -var-file=prod.tfvars -refresh-only
-...
-No changes. Your infrastructure still matches the configuration.
-
-Terraform has checked that the real remote objects still match the result of your most recent changes, and found no differences.
+Terraform has compared your real infrastructure against your configuration and found 
+no differences, so no changes are needed.
 
 Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
 
@@ -222,12 +233,16 @@ aws_route_table_association.rta_subnet_public
 aws_security_group.webserver_sg
 aws_subnet.public_subnet
 aws_vpc.sandbox_vpc
-$ terraform apply -replace="aws_instance.webserver[0]" -var-file=prod.tfvars
+
+$ terraform apply -replace="aws_instance.webserver[0]" -var-file=dev.tfvars
 ...
 Terraform will perform the following actions:
 ...
   # aws_instance.webserver[0] will be replaced, as requested
 ```
+
+Notice that other resources are changed and/or replaced as a result, since
+they have dependencies on values from the deposed `aws_instance.webserver[0]`.
 
 ## Clean up
 
@@ -236,27 +251,41 @@ We can clean up what we created, in each workspace.
 ```console
 $ terraform workspace list
   default
-  dev
-* prod
+* dev
+  prod
+
+$ terraform destroy -var-file=dev.tfvars
+...
+Destroy complete! Resources: 11 destroyed.
+
+$ terraform workspace select prod
+Switched to workspace "prod".
 
 $ terraform destroy -var-file=prod.tfvars
 ...
 Destroy complete! Resources: 11 destroyed.
-$ terraform workspace select dev
-Switched to workspace "dev".
-$ terraform destroy -var-file=dev.tfvars
-...
-Destroy complete! Resources: 11 destroyed.
+
 $ terraform workspace select default
 Switched to workspace "default".
+
 $ terraform destroy
+$ terraform destroy 
+var.instance_type
+  Webserver instance type
+
+  Enter a value: m5a.xlarge
 ...
 Destroy complete! Resources: 11 destroyed.
+
 $ terraform workspace list
 * default
   dev
   prod
 ```
+
+Notice that we need to supply the value for `var.instance_type`, since we added
+it as a variable. It didn't matter what value we gave it because the resource
+was being destroyed anyway.
 
 ## Static analysis and security
 
@@ -294,7 +323,7 @@ Create a configuration file as `.tflint.hcl`:
 ```terraform
 plugin "aws" {
   enabled = true
-  version = "0.13.4"
+  version = "0.23.1"
   source  = "github.com/terraform-linters/tflint-ruleset-aws"
 }
 ```
@@ -307,7 +336,7 @@ $ curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/inst
 Looking up the latest version ...
 ...
 Current tflint version
-TFLint version 0.36.2
+TFLint version 0.46.1
 ```
 
 Initialize the configuration once, and then we can use `tflint` to review our
@@ -316,7 +345,8 @@ code.
 ```console
 $ tflint --init
 Installing `aws` plugin...
-Installed `aws` (source: github.com/terraform-linters/tflint-ruleset-aws, version: 0.13.4)
+Installed `aws` (source: github.com/terraform-linters/tflint-ruleset-aws, version: 0.23.1)
+
 $ tflint
 1 issue(s) found:
 
@@ -339,6 +369,7 @@ and can be installed with all its dependencies using `pip`.
 ```console
 $ python --version
 Python 3.8.10
+
 $ pip3 install checkov
 ...
 Successfully installed aiodns-3.0.0 aiohttp-3.8.1 aiomultiprocess-0.9.0 aiosignal-1.2.0 async-timeout-4.0.2 bc-python-hcl2-0.3.28 cachetools-5.0.0 cffi-1.15.0 charset-normalizer-2.0.9 checkov-2.0.692 click-8.0.3 cyclonedx-python-lib-0.12.3 frozenlist-1.2.0 multidict-5.2.0 packageurl-python-0.9.6 pycares-4.1.2 pycparser-2.21 setuptools-60.1.0 types-setuptools-57.4.4 types-toml-0.10.1 yarl-1.7.2
@@ -356,6 +387,7 @@ Problems and often solutions are linked in the output.
 ```console
 $ checkov -f network.tf
 ...
+
 $ checkov -d .
        _               _
    ___| |__   ___  ___| | _______   __
@@ -363,11 +395,11 @@ $ checkov -d .
  | (__| | | |  __/ (__|   < (_) \ V /
   \___|_| |_|\___|\___|_|\_\___/ \_/
 
-By bridgecrew.io | version: 2.0.1140
+By bridgecrew.io | version: 2.3.287
 
 terraform scan results:
 
-Passed checks: 12, Failed checks: 4, Skipped checks: 0
+Passed checks: 17, Failed checks: 10, Skipped checks: 0
 ...
 ```
 

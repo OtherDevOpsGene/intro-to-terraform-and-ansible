@@ -46,7 +46,7 @@ on your laptop and make sure it is on your path.
 
 ```console
 $ terraform --version
-Terraform v1.4.6
+Terraform v1.5.0
 on linux_amd64
 ```
 

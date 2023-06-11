@@ -24,14 +24,15 @@ We'll initialize Terraform and apply the code to create our infrastructure.
 ```console
 $ ls -A
 .gitignore  README.md  main.tf
+
 $ terraform init
 
 Initializing the backend...
 
 Initializing provider plugins...
-- Finding hashicorp/aws versions matching "~> 4.13.0"...
-- Installing hashicorp/aws v4.13.0...
-- Installed hashicorp/aws v4.13.0 (signed by HashiCorp)
+- Finding hashicorp/aws versions matching "~> 5.2.0"...
+- Installing hashicorp/aws v5.2.0...
+- Installed hashicorp/aws v5.2.0 (signed by HashiCorp)
 
 Terraform has created a lock file .terraform.lock.hcl to record the provider
 selections it made above. Include this file in your version control repository
@@ -47,6 +48,7 @@ should now work.
 If you ever set or change modules or backend configuration for Terraform,
 rerun this command to reinitialize your working directory. If you forget, other
 commands will detect it and remind you to do so if necessary.
+
 $ terraform validate
 Success! The configuration is valid.
 
@@ -95,7 +97,7 @@ $ ls -A
 $ less terraform.tfstate
 {
   "version": 4,
-  "terraform_version": "1.1.9",
+  "terraform_version": "1.5.0",
 ...
 
 $ terraform show
@@ -106,6 +108,7 @@ resource "aws_instance" "my_server" {
 
 $ terraform state list
 aws_instance.my_server
+
 $ terraform state show "aws_instance.my_server"
 # aws_instance.my_server:
 resource "aws_instance" "my_server" {
@@ -147,10 +150,10 @@ Terraform will perform the following actions:
       ~ tags_all                             = {
           ~ "Name" = "my-server" -> "tf-lesson-01"
         }
-        # (27 unchanged attributes hidden)
+        # (30 unchanged attributes hidden)
 
 
-        # (5 unchanged blocks hidden)
+        # (8 unchanged blocks hidden)
     }
 
 Plan: 0 to add, 1 to change, 0 to destroy.
@@ -203,10 +206,10 @@ Terraform will perform the following actions:
       ~ tags_all                             = {
           ~ "Name" = "tf-lesson-01" -> "tf-lesson-01-0"
         }
-        # (28 unchanged attributes hidden)
+        # (30 unchanged attributes hidden)
 
 
-        # (6 unchanged blocks hidden)
+        # (8 unchanged blocks hidden)
     }
 
   # aws_instance.my_server[1] will be created
@@ -239,6 +242,7 @@ We can still see what was created by Terraform using the command-line.
 $ terraform state list
 aws_instance.my_server[0]
 aws_instance.my_server[1]
+
 $ terraform state show "aws_instance.my_server[0]"
 # aws_instance.my_server[0]:
 resource "aws_instance" "my_server" {

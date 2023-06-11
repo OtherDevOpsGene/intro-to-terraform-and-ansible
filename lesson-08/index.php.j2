@@ -14,7 +14,7 @@
     <?php
       error_reporting(E_ALL);
       try {
-        $mongo = new MongoDB\Driver\Manager('mongodb://{{ hostvars[groups['database'][0]]['ansible_default_ipv4']['address'] }}');
+        $mongo = new MongoDB\Driver\Manager('mongodb://iauAdmin:doNotDoThisInARealSystem@{{ hostvars[groups['database'][0]]['ansible_default_ipv4']['address'] }}');
         $query = new MongoDB\Driver\Query([]);
         $docs = $mongo->executeQuery("test.planets", $query);
 

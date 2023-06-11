@@ -2,7 +2,7 @@
 
 We will use Terraform to stand up an environment to use Ansible from and on.
 The Ansible control node, which is where Ansible runs from, needs to be a Linux
-system with Python 3.8+ installed. We will create 3 target systems that we will
+system with Python installed. We will create 3 target systems that we will
 configure using Ansible. Those systems will have the web server ports exposed to
 the public internet, but will otherwise only be accessible from the control node
 and other targets.
@@ -25,9 +25,9 @@ Create `terraform.tfvars`:
 
 ```terraform
 aws_region       = "us-east-2"
-owner_email      = "eugene.gotimer@steampunk.com"
+owner_email      = "otherdevopsgene@portinfo.com"
 key_name         = "gene-test-us-east-2"
-private_key_file = "/mnt/c/Users/GotimerEugene/.ssh/gene-test-us-east-2.pem"
+private_key_file = "/home/ggotimer/.ssh/gene-test-us-east-2.pem"
 ```
 
 Then we can use Terraform to create the environment. The `remote_exec` provisioner will
@@ -36,6 +36,7 @@ make it take longer that we've seen.
 ```console
 $ terraform init
 ...
+
 $ terraform apply
 ...
 Outputs:
@@ -48,7 +49,7 @@ target_instance_ids = [
 target_private_ips = [
   "10.8.0.10",
   "10.8.0.41",
-  "10.8.0.206",
+  "10.8.0.178",
 ]
 target_public_ips = [
   "18.117.70.148",
@@ -78,7 +79,7 @@ target_instance_ids = [
 target_private_ips = [
   "10.8.0.10",
   "10.8.0.41",
-  "10.8.0.206",
+  "10.8.0.178",
 ]
 target_public_ips = [
   "18.117.70.148",
@@ -88,13 +89,17 @@ target_public_ips = [
 workstation_instance_id = "i-02890a16937a7af84"
 workstation_private_ip = "10.8.0.26"
 workstation_public_ip = "3.142.171.59"
+
 $ terraform output target_private_ips
 [
   "10.8.0.10",
   "10.8.0.41",
-  "10.8.0.206",
+  "10.8.0.178",
 ]
-$ terraform output workstation_public_ip
+
+$ cd ..
+
+$ terraform output -state=lesson-04/terraform.tfstate workstation_public_ip
 "3.142.171.59"
 ```
 
@@ -104,13 +109,13 @@ SSH into the Ansible workstation using the `workstation_public_ip` and the key f
 we specified. The username is `ubuntu`.
 
 ```console
-$ ssh -i /mnt/c/Users/GotimerEugene/.ssh/gene-test-us-east-2.pem ubuntu@3.142.171.59
+$ ssh -i /home/ggotimer/.ssh/gene-test-us-east-2.pem ubuntu@3.142.171.59
 The authenticity of host '3.142.171.59 (3.142.171.59)' can't be established.
 ED25519 key fingerprint is SHA256:s14sJUQRjUGCD5/9SE9SeVcfsV0f3qDocxrwrSPSMbM.
 This key is not known by any other names
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 Warning: Permanently added '3.142.171.59' (ED25519) to the list of known hosts.
-Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.11.0-1023-aws x86_64)
+Welcome to Ubuntu 22.04.2 LTS (GNU/Linux 5.19.0-1026-aws x86_64)
 ...
 ubuntu@ip-10-8-0-26:~$
 ```
@@ -139,24 +144,32 @@ upcoming lessons. We can destroy it later (and recreate it again if we need to).
 
 ## Why not local Ansible
 
-It might be easier in a lot of ways if we used our laptop as our Ansible control node
-instead of creating a workstation in AWS and working remotely.
-But there are reasons we aren't doing that. Some of them are:
+It might be easier in a lot of ways if we used our laptop as our Ansible control
+node instead of creating a workstation in AWS and working remotely. But there
+are reasons we aren't doing that. Some of them are:
 
-1. Installing the correct version of Python is generally easy only if another version of Python isn't already installed.
-1. Set up and configuration on different OSes and platforms sometimes has subtle or non-subtle differences.
-1. Use of the command line (e.g., escaping special characters) differs between shells.
-1. It is safer to work in a sandbox as closed off from the public internet as possible.
-1. Using a system near the target network as a bastion host or workstation is not an uncommon pattern.
-1. SSH tunneling can be non-trivial to set up and troubleshoot, especially on multiple platforms and SSH clients.
+1. Installing the correct version of Python is generally easy, but only if 
+   another version of Python isn't already installed.
+1. Set up and configuration on different OSes and platforms sometimes has subtle
+   or non-subtle differences.
+1. Use of the command line (e.g., escaping special characters) differs between 
+   shells.
+1. It is safer to work in a sandbox as closed off from the public internet as
+   possible, especially while we are learning.
+1. Using a system near the target network as a bastion host or workstation is 
+   not an uncommon pattern.
+1. SSH tunneling can be non-trivial to set up and troubleshoot, especially on 
+   multiple platforms and SSH clients.
 1. We aren't using this environment for an extended period.
 
 So in the interest of simplifying the workshop, I chose to use a remote
 control node. It just makes for a smoother, more homogeneous workshop experience.
 
-That said, we could do the rest of the exercises with some changes to the security groups on the targets,
-eliminating the workstation, and making sure Ansible is installed and configured correctly on our laptop.
-If you choose to go that route, caveat lector. The necessary changes are left as an exercise for the reader.
+That said, we could do the rest of the exercises with some changes to the
+security groups on the targets, eliminating the workstation, and making sure
+Ansible is installed and configured correctly on our laptop. If you choose to go
+that route, caveat lector. The necessary changes are left as an exercise for the
+reader.
 
 ## End of Lesson 04
 
@@ -170,14 +183,14 @@ In the next lesson, we'll start looking at some
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1.2 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.13.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.2.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.13.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.2.0 |
 
 ## Modules
 
@@ -203,7 +216,8 @@ No modules.
 | [aws_security_group_rule.target_sg_allow_workstation_ssh](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) | resource |
 | [aws_subnet.public_subnet](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
 | [aws_vpc.sandbox_vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc) | resource |
-| [aws_ami.ubuntu_linux](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
+| [aws_ami.ubuntu_focal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
+| [aws_ami.ubuntu_jammy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
 
 ## Inputs
 

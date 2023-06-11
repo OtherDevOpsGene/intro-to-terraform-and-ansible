@@ -1,11 +1,12 @@
 ---
-- hosts: webservers
+- name: Install and configure nginx
+  hosts: webserver
   become: true
 
   vars:
     nginx_vhosts:
       - listen: "80"
-        server_name: "default"
+        server_name: "otherdevopsgene.dev"
 
   roles:
     - geerlingguy.nginx

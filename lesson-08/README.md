@@ -28,9 +28,9 @@ set up NGINX to use PHP-FPM.
 ubuntu@ip-10-8-0-26:~$ ansible-galaxy install geerlingguy.php
 Starting galaxy role install process
 - downloading role 'php', owned by geerlingguy
-- downloading role from https://github.com/geerlingguy/ansible-role-php/archive/4.7.0.tar.gz
+- downloading role from https://github.com/geerlingguy/ansible-role-php/archive/5.0.0.tar.gz
 - extracting geerlingguy.php to /home/ubuntu/.ansible/roles/geerlingguy.php
-- geerlingguy.php (4.7.0) was installed successfully
+- geerlingguy.php (5.0.0) was installed successfully
 ```
 
 ## Run the Ansible code
@@ -43,22 +43,22 @@ ubuntu@ip-10-8-0-26:~$ ansible-playbook nginx-playbook.yml
 PLAY [Gather facts from database group] ********************************************************************************************
 
 TASK [Gathering Facts] *************************************************************************************************************
-ok: [10.8.0.89]
+ok: [10.8.0.10]
 
-PLAY [webservers] ******************************************************************************************************************
+PLAY [Build a PHP web site] ********************************************************************************************************
 ...
 
 PLAY RECAP *************************************************************************************************************************
-10.8.0.146                 : ok=51   changed=18   unreachable=0    failed=0    skipped=16   rescued=0    ignored=0
-10.8.0.69                  : ok=51   changed=18   unreachable=0    failed=0    skipped=16   rescued=0    ignored=0
-10.8.0.89                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+10.8.0.178                 : ok=54   changed=17   unreachable=0    failed=0    skipped=16   rescued=0    ignored=0
+10.8.0.41                  : ok=54   changed=17   unreachable=0    failed=0    skipped=16   rescued=0    ignored=0
+10.8.0.10                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
 ubuntu@ip-10-8-0-26:~$ ansible-playbook mongodb-playbook.yml
 
-PLAY [database] ********************************************************************************************************************
+PLAY [Install, configure, and populate mongodb] ************************************************************************************
 ...
 PLAY RECAP *************************************************************************************************************************
-10.8.0.89                  : ok=30   changed=16   unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
+10.8.0.10                  : ok=29   changed=16   unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
 ```
 
 If we point a web browser at either of our web servers, we should see our

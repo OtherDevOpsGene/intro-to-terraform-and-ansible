@@ -7,12 +7,12 @@ regions:
 hostnames:
   - ip-address
 
-include_filters:
-  - tag:Project:
-      - 'planets'
-  - tag:Environment:
-      - 'demo'
+filters:
+  tag:Project: planets
+  tag:Environment: demo
 
-leading_separator: false
 keyed_groups:
   - key: tags.Role
+    separator: ''
+  - key: tags.Environment
+    prefix: env

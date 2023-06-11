@@ -1,4 +1,4 @@
-data "aws_ami" "ubuntu_linux" {
+data "aws_ami" "ubuntu_focal" {
   most_recent = true
   owners      = ["099720109477"]
 
@@ -15,7 +15,7 @@ data "aws_ami" "ubuntu_linux" {
 
 resource "aws_instance" "target" {
   count                  = 3
-  ami                    = data.aws_ami.ubuntu_linux.id
+  ami                    = data.aws_ami.ubuntu_focal.id
   instance_type          = "t3a.small"
   vpc_security_group_ids = [aws_security_group.target_sg.id]
   subnet_id              = aws_subnet.public_subnet.id
@@ -42,8 +42,23 @@ resource "aws_instance" "target" {
   }
 }
 
+data "aws_ami" "ubuntu_jammy" {
+  most_recent = true
+  owners      = ["099720109477"]
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-*-22.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
 resource "aws_instance" "workstation" {
-  ami                    = data.aws_ami.ubuntu_linux.id
+  ami                    = data.aws_ami.ubuntu_jammy.id
   instance_type          = "t3a.small"
   vpc_security_group_ids = [aws_security_group.workstation_sg.id]
   subnet_id              = aws_subnet.public_subnet.id

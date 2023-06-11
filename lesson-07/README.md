@@ -24,15 +24,15 @@ Update the `inventory.ini` to add these groups so we can refer to the servers ea
 [targets]
 10.8.0.10
 10.8.0.41
-10.8.0.206
+10.8.0.178
 
 [all:children]
 workstation
 targets
 
-[webservers]
+[webserver]
 10.8.0.41
-10.8.0.206
+10.8.0.178
 
 [database]
 10.8.0.10
@@ -41,8 +41,8 @@ targets
 Test them with a `ping`.
 
 ```console
-ubuntu@ip-10-8-0-26:~$ ansible webservers -m ping
-10.8.0.206 | SUCCESS => {
+ubuntu@ip-10-8-0-26:~$ ansible webserver -m ping
+10.8.0.178 | SUCCESS => {
     "ansible_facts": {
         "discovered_interpreter_python": "/usr/bin/python3"
     },
@@ -56,6 +56,7 @@ ubuntu@ip-10-8-0-26:~$ ansible webservers -m ping
     "changed": false,
     "ping": "pong"
 }
+
 ubuntu@ip-10-8-0-26:~$ ansible database -m ping
 10.8.0.10 | SUCCESS => {
     "ansible_facts": {
@@ -87,22 +88,23 @@ First, we need to install them on our control node so Ansible can use them.
 ubuntu@ip-10-8-0-26:~$ ansible-galaxy install geerlingguy.nginx
 Starting galaxy role install process
 - downloading role 'nginx', owned by geerlingguy
-- downloading role from https://github.com/geerlingguy/ansible-role-nginx/archive/3.1.0.tar.gz
+- downloading role from https://github.com/geerlingguy/ansible-role-nginx/archive/3.1.4.tar.gz
 - extracting geerlingguy.nginx to /home/ubuntu/.ansible/roles/geerlingguy.nginx
-- geerlingguy.nginx (3.1.0) was installed successfully
+- geerlingguy.nginx (3.1.4) was installed successfully
+
 ubuntu@ip-10-8-0-26:~$ ansible-galaxy collection install community.mongodb
 Starting galaxy collection install process
 Process install dependency map
 Starting collection install process
-Downloading https://galaxy.ansible.com/download/community-mongodb-1.3.2.tar.gz to /home/ubuntu/.ansible/tmp/ansible-local-9402dmuftl1q/tmp2sh_o8my/community-mongodb-1.3.2-kbwytqfq
-Installing 'community.mongodb:1.3.2' to '/home/ubuntu/.ansible/collections/ansible_collections/community/mongodb'
-Downloading https://galaxy.ansible.com/download/ansible-posix-1.3.0.tar.gz to /home/ubuntu/.ansible/tmp/ansible-local-9402dmuftl1q/tmp2sh_o8my/ansible-posix-1.3.0-jfe0its2
-community.mongodb:1.3.2 was installed successfully
-Installing 'ansible.posix:1.3.0' to '/home/ubuntu/.ansible/collections/ansible_collections/ansible/posix'
-Downloading https://galaxy.ansible.com/download/community-general-4.2.0.tar.gz to /home/ubuntu/.ansible/tmp/ansible-local-9402dmuftl1q/tmp2sh_o8my/community-general-4.2.0-y5t748ev
-ansible.posix:1.3.0 was installed successfully
-Installing 'community.general:4.2.0' to '/home/ubuntu/.ansible/collections/ansible_collections/community/general'
-community.general:4.2.0 was installed successfully
+Downloading https://galaxy.ansible.com/download/community-mongodb-1.6.0.tar.gz to /home/ubuntu/.ansible/tmp/ansible-local-4488ytdxa6k4/tmpxj1s8r4l/community-mongodb-1.6.0-6yts7n33
+Installing 'community.mongodb:1.6.0' to '/home/ubuntu/.ansible/collections/ansible_collections/community/mongodb'
+Downloading https://galaxy.ansible.com/download/ansible-posix-1.5.4.tar.gz to /home/ubuntu/.ansible/tmp/ansible-local-4488ytdxa6k4/tmpxj1s8r4l/ansible-posix-1.5.4-8gwv4ws0
+community.mongodb:1.6.0 was installed successfully
+Installing 'ansible.posix:1.5.4' to '/home/ubuntu/.ansible/collections/ansible_collections/ansible/posix'
+Downloading https://galaxy.ansible.com/download/community-general-7.0.1.tar.gz to /home/ubuntu/.ansible/tmp/ansible-local-4488ytdxa6k4/tmpxj1s8r4l/community-general-7.0.1-a_woxygh
+ansible.posix:1.5.4 was installed successfully
+Installing 'community.general:7.0.1' to '/home/ubuntu/.ansible/collections/ansible_collections/community/general'
+community.general:7.0.1 was installed successfully
 ```
 
 ## Installing NGINX
@@ -129,22 +131,23 @@ We don't have to worry about that right now since `geerlingguy` already did. We
 just have to supply the playbook.
 
 Create [nginx-playbook.yml](./nginx-playbook.yml) on the control node to call the role.
-We want the role applied to our `webservers` group. Since we'll be installing packages,
+We want the role applied to our `webserver` group. Since we'll be installing packages,
 we'll need elevated privileges. The Read Me on Galaxy shows which variables to
 supply and then we can leave the rest to the role.
 
 ```yaml
 ---
-- hosts: webservers
+- name: Install and configure nginx
+  hosts: webserver
   become: true
 
   vars:
     nginx_vhosts:
       - listen: "80"
-        server_name: "example.com"
+        server_name: "otherdevopsgene.dev"
 
   roles:
-    - {role: geerlingguy.nginx}
+    - geerlingguy.nginx
 ```
 
 Then run our playbook.
@@ -152,21 +155,20 @@ Then run our playbook.
 ```console
 ubuntu@ip-10-8-0-26:~$ ansible-playbook nginx-playbook.yml
 
-PLAY [webservers] ******************************************************************************************************************
+PLAY [Install and configure nginx] *************************************************************************************************
 ...
 PLAY RECAP *************************************************************************************************************************
-10.8.0.206                 : ok=14   changed=4    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
+10.8.0.178                 : ok=14   changed=4    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
 10.8.0.41                  : ok=14   changed=4    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
 ```
 
 We need to find out what the public IP addresses for the targets are, knowing
 that 2 of the 3 of them are our web servers.
 
-On our laptop, go to the `lesson-04` directory and pull up the Terraform output again.
+On our laptop, pull up the Terraform output again.
 
 ```console
-$ cd ../lesson-04
-$ terraform output target_public_ips
+$ terraform output -state=../lesson-04/terraform.tfstate target_public_ips
 [
   "18.117.70.148",
   "18.188.98.141",
@@ -180,32 +182,33 @@ If we point a web browser to those IP addresses, we should see a web page on 2 o
   <img alt="Welcome to nginx!" src="../screenshots/welcome-to-nginx.png"/>
 </kbd>
 
-That works, but we really want something a little more bespoke. We can add some
-more configuration to the playbook and include a new home page. Add another variable
-and a task to `nginx-playbook.yml`.
+That works, but we really want something a little more customized. We can add
+some more configuration to the playbook and include a new home page. Add another
+variable and a task to `nginx-playbook.yml`.
 
 ```yaml
 ---
-- hosts: webservers
+- name: Install and configure nginx
+  hosts: webserver
   become: true
 
   vars:
     my_name: "Gene"
     nginx_vhosts:
       - listen: "80"
-        server_name: "example.com"
+        server_name: "otherdevopsgene.dev"
 
   roles:
     - {role: geerlingguy.nginx}
 
   tasks:
     - name: Install a custom home page
-      template:
+      ansible.builtin.template:
         src: index.html.j2
         dest: /var/www/html/index.html
         owner: www-data
         group: www-data
-        mode: 0644
+        mode: "0644"
 ```
 
 The [template](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/template_module.html)
@@ -244,14 +247,18 @@ was the only play that changed. The rest of the plays were idempotent.
 ```console
 ubuntu@ip-10-8-0-26:~$ ansible-playbook nginx-playbook.yml
 
-PLAY [webservers] ******************************************************************************************************************
+PLAY [Install and configure nginx] *************************************************************************************************
 ...
 TASK [Install a custom home page] **************************************************************************************************
-changed: [10.8.0.206]
+changed: [10.8.0.178]
+changed: [10.8.0.41]
+
+RUNNING HANDLER [geerlingguy.nginx : reload nginx] *********************************************************************************
+changed: [10.8.0.178]
 changed: [10.8.0.41]
 
 PLAY RECAP *************************************************************************************************************************
-10.8.0.206                 : ok=14   changed=1    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
+10.8.0.178                 : ok=14   changed=1    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
 10.8.0.41                  : ok=14   changed=1    unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
 ```
 
@@ -267,14 +274,15 @@ the role.
 
 ```yaml
 ---
-- hosts: database
+- name: Install and configure mongodb
+  hosts: database
   become: true
   collections:
     - community.mongodb
 
   roles:
     - mongodb_linux
-    - {role: mongodb_repository, mongodb_version: "5.0"}
+    - {role: mongodb_repository, mongodb_version: "6.0"}
     - mongodb_install
     - {role: mongodb_mongod, bind_ip: "localhost,{{ ansible_default_ipv4.address }}", replicaset: false}
 ```
@@ -282,10 +290,10 @@ the role.
 ```console
 ubuntu@ip-10-8-0-26:~$ ansible-playbook mongodb-playbook.yml
 
-PLAY [database] ********************************************************************************************************************
+PLAY [Install and configure mongodb] ***********************************************************************************************
 ...
 PLAY RECAP *************************************************************************************************************************
-10.8.0.10                  : ok=20   changed=11   unreachable=0    failed=0    skipped=5    rescued=0    ignored=0
+10.8.0.10                  : ok=28   changed=14   unreachable=0    failed=0    skipped=9    rescued=0    ignored=0  
 ```
 
 Let's verify from the control node that the `mongod` service is running on our database node, meaning that MongoDB is

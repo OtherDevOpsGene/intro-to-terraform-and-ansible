@@ -1,4 +1,4 @@
-data "aws_ami" "ubuntu_linux" {
+data "aws_ami" "ubuntu_focal" {
   most_recent = true
   owners      = ["099720109477"]
 
@@ -20,7 +20,7 @@ variable "planet_az" {
 
 resource "aws_instance" "webserver" {
   count                  = 2
-  ami                    = data.aws_ami.ubuntu_linux.id
+  ami                    = data.aws_ami.ubuntu_focal.id
   instance_type          = "t3a.small"
   vpc_security_group_ids = [aws_security_group.webserver_sg.id]
   availability_zone      = var.planet_az
@@ -45,13 +45,13 @@ resource "aws_instance" "webserver" {
     Name        = "planet-webserver-${count.index}"
     Project     = "planets"
     Environment = "demo"
-    Role        = "webservers"
+    Role        = "webserver"
     Owner       = var.owner_email
   }
 }
 
 resource "aws_instance" "mongodb" {
-  ami                    = data.aws_ami.ubuntu_linux.id
+  ami                    = data.aws_ami.ubuntu_focal.id
   instance_type          = "t3a.small"
   vpc_security_group_ids = [aws_security_group.mongodb_sg.id]
   availability_zone      = var.planet_az

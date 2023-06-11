@@ -23,59 +23,60 @@ a playbook.
 
 ```yaml
 ---
-- hosts: targets
+- name: Fortune cookies
+  hosts: targets
 
   tasks:
-  - name: Install the fortune package
-    apt:
-      name: fortune
-      state: present
-      update_cache: true
-    become: true
+    - name: Install the fortune package
+      ansible.builtin.apt:
+        name: fortune
+        state: present
+        update_cache: true
+      become: true
 
-  - name: Run fortune
-    command: fortune
-    register: fortune_out
+    - name: Run fortune
+      ansible.builtin.command: fortune
+      register: fortune_out
 
-  - name: Display fortune results
-    debug:
-      var: fortune_out.stdout
+    - name: Display fortune results
+      ansible.builtin.debug:
+        var: fortune_out.stdout
 ```
 
 ```console
 ubuntu@ip-10-8-0-26:~$ ansible-playbook fortune-playbook.yml
 
-PLAY [targets] *********************************************************************************************************************
+PLAY [Fortune cookies] *************************************************************************************************************
 
 TASK [Gathering Facts] *************************************************************************************************************
-ok: [10.8.0.206]
+ok: [10.8.0.178]
 ok: [10.8.0.10]
 ok: [10.8.0.41]
 
 TASK [Install the fortune package] *************************************************************************************************
 ok: [10.8.0.10]
-ok: [10.8.0.206]
+ok: [10.8.0.178]
 ok: [10.8.0.41]
 
 TASK [Run fortune] *****************************************************************************************************************
-changed: [10.8.0.206]
+changed: [10.8.0.178]
 changed: [10.8.0.10]
 changed: [10.8.0.41]
 
 TASK [Display fortune results] *****************************************************************************************************
 ok: [10.8.0.10] => {
-    "fortune_out.stdout": "It is a wise father that knows his own child.\n\t\t-- William Shakespeare, \"The Merchant of Venice\""
+    "fortune_out.stdout": "Q:\tWhat do you get when you cross the Godfather with an attorney?\nA:\tAn offer you can't understand."
 }
 ok: [10.8.0.41] => {
-    "fortune_out.stdout": "If more of us valued food and cheer and song above hoarded gold, it would\nbe a merrier world.\n\t\t-- J.R.R. Tolkien"
+    "fortune_out.stdout": "Good news.  Ten weeks from Friday will be a pretty good day."
 }
-ok: [10.8.0.206] => {
+ok: [10.8.0.178] => {
     "fortune_out.stdout": "Q:\tWhat lies on the bottom of the ocean and twitches?\nA:\tA nervous wreck."
 }
 
 PLAY RECAP *************************************************************************************************************************
 10.8.0.10                  : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-10.8.0.206                 : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+10.8.0.178                 : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 10.8.0.41                  : ok=4    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
 ```
@@ -88,63 +89,64 @@ a playbook.
 
 ```yaml
 ---
-- hosts: targets
+- name: Cows telling fortunes
+  hosts: targets
 
   tasks:
-  - name: Install the fortune package
-    apt:
-      name: fortune
-      state: present
-      update_cache: true
-    become: true
+    - name: Install the fortune package
+      ansible.builtin.apt:
+        name: fortune
+        state: present
+        update_cache: true
+      become: true
 
-  - name: Run fortune
-    command: fortune
-    register: fortune_out
+    - name: Run fortune
+      ansible.builtin.command: fortune
+      register: fortune_out
 
-  - name: Install the cowsay package
-    apt:
-      name: cowsay
-      state: present
-    become: true
+    - name: Install the cowsay package
+      ansible.builtin.apt:
+        name: cowsay
+        state: present
+      become: true
 
-  - name: Run cowsay
-    command: "cowsay \"{{ ansible_hostname }}: {{ fortune_out.stdout }}\""
-    register: cowsay_out
+    - name: Run cowsay
+      ansible.builtin.command: "cowsay \"{{ ansible_hostname }}: {{ fortune_out.stdout }}\""
+      register: cowsay_out
 
-  - name: Display cowsay results
-    debug:
-      var: cowsay_out.stdout_lines
+    - name: Display cowsay results
+      ansible.builtin.debug:
+        var: cowsay_out.stdout_lines
 ```
 
 ```console
 ubuntu@ip-10-8-0-26:~$ ansible-playbook cowsay-playbook.yml
 
-PLAY [targets] *********************************************************************************************************************
+PLAY [Cows telling fortunes] *******************************************************************************************************
 
 TASK [Gathering Facts] *************************************************************************************************************
 ok: [10.8.0.10]
-ok: [10.8.0.206]
+ok: [10.8.0.178]
 ok: [10.8.0.41]
 
 TASK [Install the fortune package] *************************************************************************************************
-ok: [10.8.0.206]
+ok: [10.8.0.178]
 ok: [10.8.0.10]
 ok: [10.8.0.41]
 
 TASK [Run fortune] *****************************************************************************************************************
-changed: [10.8.0.206]
+changed: [10.8.0.178]
 changed: [10.8.0.10]
 changed: [10.8.0.41]
 
 TASK [Install the cowsay package] **************************************************************************************************
-changed: [10.8.0.206]
+changed: [10.8.0.178]
 changed: [10.8.0.10]
 changed: [10.8.0.41]
 
 TASK [Run cowsay] ******************************************************************************************************************
 changed: [10.8.0.10]
-changed: [10.8.0.206]
+changed: [10.8.0.178]
 changed: [10.8.0.41]
 
 TASK [Display cowsay results] ******************************************************************************************************
@@ -174,10 +176,10 @@ ok: [10.8.0.41] => {
         "                ||     ||"
     ]
 }
-ok: [10.8.0.206] => {
+ok: [10.8.0.178] => {
     "cowsay_out.stdout_lines": [
         " ________________________________________",
-        "/ ip-10-8-0-206: You will be run over by \\",
+        "/ ip-10-8-0-178: You will be run over by \\",
         "\\ a bus.                                 /",
         " ----------------------------------------",
         "        \\   ^__^",
@@ -190,7 +192,7 @@ ok: [10.8.0.206] => {
 
 PLAY RECAP *************************************************************************************************************************
 10.8.0.10                  : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-10.8.0.206                 : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+10.8.0.178                 : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 10.8.0.41                  : ok=6    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
@@ -225,10 +227,10 @@ Install Ansible Lint on the control node using `pip3`.
 ```console
 ubuntu@ip-10-8-0-26:~$ pip3 install --user ansible-lint
 Collecting ansible-lint
-  Downloading ansible_lint-5.3.1-py3-none-any.whl (114 kB)
+  Downloading ansible_lint-6.17.0-py3-none-any.whl (278 kB)
 ...
-Installing collected packages: pygments, commonmark, rich, enrich, tenacity, bracex, wcmatch, ruamel.yaml.clib, ruamel.yaml, ansible-lint
-Successfully installed ansible-lint-5.3.1 bracex-2.2.1 commonmark-0.9.1 enrich-1.2.6 pygments-2.11.2 rich-10.16.2 ruamel.yaml-0.17.20 ruamel.yaml.clib-0.2.6 tenacity-8.0.1 wcmatch-8.3
+Installing collected packages: tomli, subprocess-tee, ruamel.yaml.clib, pygments, platformdirs, pathspec, mypy-extensions, mdurl, jsonschema, filelock, bracex, yamllint, wcmatch, ruamel.yaml, markdown-it-py, black, ansible-compat, rich, ansible-lint
+Successfully installed ansible-compat-4.1.2 ansible-lint-6.17.0 black-23.3.0 bracex-2.3.post1 filelock-3.12.1 jsonschema-4.17.3 markdown-it-py-2.2.0 mdurl-0.1.2 mypy-extensions-1.0.0 pathspec-0.11.1 platformdirs-3.5.3 pygments-2.15.1 rich-13.4.1 ruamel.yaml-0.17.31 ruamel.yaml.clib-0.2.7 subprocess-tee-0.4.1 tomli-2.0.1 wcmatch-8.4.1 yamllint-1.32.0
 ```
 
 Then run it on one or more files.
@@ -236,21 +238,22 @@ Then run it on one or more files.
 ```console
 ubuntu@ip-10-8-0-26:~$ ansible-lint fortune-playbook.yml cowsay-playbook.yml
 WARNING  Listing 3 violation(s) that are fatal
-no-changed-when: Commands should not change things if nothing needs doing
-cowsay-playbook.yml:12 Task/Handler: Run fortune
+no-changed-when: Commands should not change things if nothing needs doing.
+cowsay-playbook.yml:13 Task/Handler: Run fortune
 
-no-changed-when: Commands should not change things if nothing needs doing
-cowsay-playbook.yml:22 Task/Handler: Run cowsay
+no-changed-when: Commands should not change things if nothing needs doing.
+cowsay-playbook.yml:23 Task/Handler: Run cowsay
 
-no-changed-when: Commands should not change things if nothing needs doing
-fortune-playbook.yml:12 Task/Handler: Run fortune
+no-changed-when: Commands should not change things if nothing needs doing.
+fortune-playbook.yml:13 Task/Handler: Run fortune
 
-You can skip specific rules or tags by adding them to your configuration file:
-# .ansible-lint
-warn_list:  # or 'skip_list' to silence them completely
-  - no-changed-when  # Commands should not change things if nothing needs doing
+Read documentation for instructions on how to ignore specific rule violations.
 
-Finished with 3 failure(s), 0 warning(s) on 2 files.
+                  Rule Violation Summary                  
+ count tag             profile rule associated tags       
+     3 no-changed-when shared  command-shell, idempotency 
+
+Failed after safety profile, 3/5 star rating: 3 failure(s), 0 warning(s) on 2 files.
 ```
 
 In this case, all 3 violations are because we are not *idempotent*- each time we
