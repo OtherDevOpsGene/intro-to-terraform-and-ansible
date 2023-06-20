@@ -268,7 +268,6 @@ Destroy complete! Resources: 11 destroyed.
 $ terraform workspace select default
 Switched to workspace "default".
 
-$ terraform destroy
 $ terraform destroy 
 var.instance_type
   Webserver instance type
@@ -336,7 +335,7 @@ $ curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/inst
 Looking up the latest version ...
 ...
 Current tflint version
-TFLint version 0.46.1
+TFLint version 0.47.0
 ```
 
 Initialize the configuration once, and then we can use `tflint` to review our
@@ -367,7 +366,7 @@ Error: "t2x.micro" is an invalid value as instance_type (aws_instance_invalid_ty
 and can be installed with all its dependencies using `pip`.
 
 ```console
-$ python --version
+$ python3 --version
 Python 3.8.10
 
 $ pip3 install checkov

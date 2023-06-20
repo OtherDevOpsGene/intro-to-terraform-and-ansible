@@ -11,8 +11,8 @@ of the web servers. Other than that, I'll just repeat the
 Terraform and Ansible together. 
 
 I have prepared a video of these steps to accompany the descriptions below if
-you want to see them in action. It may not match exactly if I have updated this
-demonstration.
+you want to see them in action. I regularly update the demonstration, so the
+video might be for an older version and it may not match exactly.
 
 * [demo-09 video](https://youtu.be/S4MeMONH5Cw)
 

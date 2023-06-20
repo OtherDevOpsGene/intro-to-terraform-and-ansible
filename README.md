@@ -92,6 +92,7 @@ AWS Access Key ID [****************5W7F]:
 AWS Secret Access Key [****************G9m9]:
 Default region name [us-east-2]:
 Default output format [json]:
+
 $ aws sts get-caller-identity
 {
     "UserId": "AIDA6J6IBOTSMECN2JXTM",

@@ -18,6 +18,7 @@ files on to that system.
 * [index.php.j2](./index.php.j2) - templated PHP page
 * [planets.css](./planets.css) - style sheet for the PHP page
 * [mongodb-playbook.yml](./mongodb-playbook.yml) - playbook to set up the database
+* [mongodb-admin.js](./mongodb-admin.js) - admin user for the database
 * [mongodb-data.js](./mongodb-data.js) - initial data for the database
 
 We also need to install an additional Ansible role,
@@ -58,7 +59,7 @@ ubuntu@ip-10-8-0-26:~$ ansible-playbook mongodb-playbook.yml
 PLAY [Install, configure, and populate mongodb] ************************************************************************************
 ...
 PLAY RECAP *************************************************************************************************************************
-10.8.0.10                  : ok=29   changed=16   unreachable=0    failed=0    skipped=8    rescued=0    ignored=0
+10.8.0.10                  : ok=33   changed=8    unreachable=0    failed=0    skipped=10   rescued=0    ignored=0
 ```
 
 If we point a web browser at either of our web servers, we should see our
