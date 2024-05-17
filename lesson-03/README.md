@@ -371,7 +371,7 @@ Python 3.8.10
 
 $ pip3 install checkov
 ...
-Successfully installed aiodns-3.0.0 aiohttp-3.8.1 aiomultiprocess-0.9.0 aiosignal-1.2.0 async-timeout-4.0.2 bc-python-hcl2-0.3.28 cachetools-5.0.0 cffi-1.15.0 charset-normalizer-2.0.9 checkov-2.0.692 click-8.0.3 cyclonedx-python-lib-0.12.3 frozenlist-1.2.0 multidict-5.2.0 packageurl-python-0.9.6 pycares-4.1.2 pycparser-2.21 setuptools-60.1.0 types-setuptools-57.4.4 types-toml-0.10.1 yarl-1.7.2
+Successfully installed aiodns-3.0.0 aiohttp-3.8.1 aiomultiprocess-0.9.0 aiosignal-1.2.0 async-timeout-4.0.2 bc-python-hcl2-0.3.28 cachetools-5.0.0 cffi-1.15.0 charset-normalizer-2.0.9 checkov-2.0.692 click-8.0.3 cyclonedx-python-lib-0.12.3 frozenlist-1.2.0 multidict-5.49.0 packageurl-python-0.9.6 pycares-4.1.2 pycparser-2.21 setuptools-60.1.0 types-setuptools-57.4.4 types-toml-0.10.1 yarl-1.7.2
 ```
 
 The rules change often (more often than weekly), so be sure to update frequently.
